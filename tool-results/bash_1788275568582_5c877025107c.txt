@@ -1,0 +1,782 @@
+$ eslint .
+
+/home/z/mbumah-pos-review/prisma/seed.ts
+    28:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    31:5    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    63:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    69:5    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    74:5    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    78:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    92:5    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+    98:7    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+   100:5    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+   101:5    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+   536:74   warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+   592:49   warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+   601:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+   629:118  warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+   665:120  warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+   701:123  warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+   737:119  warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+   750:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+   956:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1001:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1227:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1247:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1277:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1308:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1333:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1350:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1370:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1398:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1418:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1675:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1772:51   warning  Unexpected any. Specify a different type                                                 @typescript-eslint/no-explicit-any
+  1799:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1800:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  1805:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2051:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2075:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2076:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2077:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2078:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2079:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2080:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2081:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2082:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2083:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2084:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2085:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2086:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2087:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2088:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2089:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2090:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2091:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+  2092:3    warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+
+/home/z/mbumah-pos-review/runner.js
+  13:1  warning  Unexpected console statement. Only these console methods are allowed: warn, error, info  no-console
+
+/home/z/mbumah-pos-review/src/__tests__/api/transactions.test.ts
+   92:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   93:29  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   98:16  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   99:16  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  126:26  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  130:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  131:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  133:27  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  137:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  138:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  140:25  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  144:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  173:26  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  176:27  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  181:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  183:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  186:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  187:29  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  217:24  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  221:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  224:26  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  258:30  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  262:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  265:27  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  269:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  272:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  273:29  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  303:26  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  307:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  309:25  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  313:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  316:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  317:29  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  350:26  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/__tests__/lib/money.test.ts
+  71:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/expenses/[id]/route.ts
+  161:22  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/logs/client-error/route.ts
+  93:19  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/messages/conversations/route.ts
+  101:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  101:41  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  101:57  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  101:73  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/payments/mpesa/callback/route.ts
+  112:24  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  118:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  146:26  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/payments/mpesa/status/[checkoutRequestId]/route.ts
+  115:9  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  116:9  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/payments/mpesa/stkpush/route.ts
+  232:20  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  233:18  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  234:22  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  235:25  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/products/bundles/route.ts
+  281:17  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/security/dashboard/route.ts
+  164:70  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  165:87  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/suppliers/[id]/performance/route.ts
+  144:39  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/api/suppliers/performance/route.ts
+  91:41  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/tabs/admin-tab.tsx
+   181:9   warning  The 'allProducts' conditional could make the dependencies of useMemo Hook (at line 188) change on every render. To fix this, wrap the initialization of 'allProducts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   602:9   warning  The 'logs' conditional could make the dependencies of useCallback Hook (at line 672) change on every render. To fix this, wrap the initialization of 'logs' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+  1381:51  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/admin-tab.tsx:1381:51
+  1379 |           {users.map((user) => {
+  1380 |             const style = ROLE_STYLES[user.role] || ROLE_STYLES.CASHIER;
+> 1381 |             const isOnline = user.lastLoginAt && (Date.now() - new Date(user.lastLoginAt).getTime()) < 30 * 60 * 1000;
+       |                                                   ^^^^^^^^^^ Cannot call impure function
+  1382 |             return (
+  1383 |               <div key={user.id} className={`flex items-center gap-3 p-2.5 rounded-lg border-l-3 ${style.border} hover:bg-muted/30 transition-colors group`}>
+  1384 |                 <div className="relative">  react-hooks/purity
+
+/home/z/mbumah-pos-review/src/app/tabs/banking-tab.tsx
+  107:9  warning  The 'accounts' conditional could make the dependencies of useMemo Hook (at line 113) change on every render. To fix this, wrap the initialization of 'accounts' in its own useMemo() Hook                react-hooks/exhaustive-deps
+  107:9  warning  The 'accounts' conditional could make the dependencies of useMemo Hook (at line 139) change on every render. To fix this, wrap the initialization of 'accounts' in its own useMemo() Hook                react-hooks/exhaustive-deps
+  107:9  warning  The 'accounts' conditional could make the dependencies of useMemo Hook (at line 253) change on every render. To fix this, wrap the initialization of 'accounts' in its own useMemo() Hook                react-hooks/exhaustive-deps
+  108:9  warning  The 'transactions' conditional could make the dependencies of useMemo Hook (at line 127) change on every render. To fix this, wrap the initialization of 'transactions' in its own useMemo() Hook        react-hooks/exhaustive-deps
+  108:9  warning  The 'transactions' conditional could make the dependencies of useMemo Hook (at line 224) change on every render. To fix this, wrap the initialization of 'transactions' in its own useMemo() Hook        react-hooks/exhaustive-deps
+  108:9  warning  The 'transactions' conditional could make the dependencies of useMemo Hook (at line 234) change on every render. To fix this, wrap the initialization of 'transactions' in its own useMemo() Hook        react-hooks/exhaustive-deps
+  109:9  warning  The 'reconciliations' conditional could make the dependencies of useMemo Hook (at line 118) change on every render. To fix this, wrap the initialization of 'reconciliations' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/catalog-tab.tsx
+  498:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  504:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  654:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/app/tabs/conversations-tab.tsx
+  127:9   warning  The 'conversations' conditional could make the dependencies of useMemo Hook (at line 138) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'conversations' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  486:44  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                             react/no-unescaped-entities
+  486:52  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                             react/no-unescaped-entities
+  809:41  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                             react/no-unescaped-entities
+
+/home/z/mbumah-pos-review/src/app/tabs/credits-tab.tsx
+  254:9  warning  The 'credits' conditional could make the dependencies of useMemo Hook (at line 279) change on every render. To fix this, wrap the initialization of 'credits' in its own useMemo() Hook      react-hooks/exhaustive-deps
+  254:9  warning  The 'credits' conditional could make the dependencies of useMemo Hook (at line 333) change on every render. To fix this, wrap the initialization of 'credits' in its own useMemo() Hook      react-hooks/exhaustive-deps
+  254:9  warning  The 'credits' conditional could make the dependencies of useMemo Hook (at line 363) change on every render. To fix this, wrap the initialization of 'credits' in its own useMemo() Hook      react-hooks/exhaustive-deps
+  255:9  warning  The 'customers' conditional could make the dependencies of useMemo Hook (at line 261) change on every render. To fix this, wrap the initialization of 'customers' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/customers-tab.tsx
+  256:9  warning  The 'timeline' logical expression could make the dependencies of useMemo Hook (at line 260) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'timeline' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  537:9  warning  The 'rawCustomers' conditional could make the dependencies of useMemo Hook (at line 578) change on every render. To fix this, wrap the initialization of 'rawCustomers' in its own useMemo() Hook                                        react-hooks/exhaustive-deps
+  537:9  warning  The 'rawCustomers' conditional could make the dependencies of useMemo Hook (at line 619) change on every render. To fix this, wrap the initialization of 'rawCustomers' in its own useMemo() Hook                                        react-hooks/exhaustive-deps
+  537:9  warning  The 'rawCustomers' conditional could make the dependencies of useMemo Hook (at line 675) change on every render. To fix this, wrap the initialization of 'rawCustomers' in its own useMemo() Hook                                        react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx
+  266:51  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx:266:51
+  264 |         return {
+  265 |           revenueChartData: days.map(() => ({
+> 266 |             revenue: Math.round(avgDaily * (0.7 + Math.random() * 0.6)),
+      |                                                   ^^^^^^^^^^^^^ Cannot call impure function
+  267 |             expenses: Math.round(avgDaily * (0.2 + Math.random() * 0.2)),
+  268 |             transactions: Math.max(1, Math.round(Math.random() * 5 + 1)),
+  269 |           })).map((d, i) => ({ ...d, label: days[i] })),              react-hooks/purity
+  267:52  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx:267:52
+  265 |           revenueChartData: days.map(() => ({
+  266 |             revenue: Math.round(avgDaily * (0.7 + Math.random() * 0.6)),
+> 267 |             expenses: Math.round(avgDaily * (0.2 + Math.random() * 0.2)),
+      |                                                    ^^^^^^^^^^^^^ Cannot call impure function
+  268 |             transactions: Math.max(1, Math.round(Math.random() * 5 + 1)),
+  269 |           })).map((d, i) => ({ ...d, label: days[i] })),
+  270 |           isDemoData: true,  react-hooks/purity
+  268:50  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx:268:50
+  266 |             revenue: Math.round(avgDaily * (0.7 + Math.random() * 0.6)),
+  267 |             expenses: Math.round(avgDaily * (0.2 + Math.random() * 0.2)),
+> 268 |             transactions: Math.max(1, Math.round(Math.random() * 5 + 1)),
+      |                                                  ^^^^^^^^^^^^^ Cannot call impure function
+  269 |           })).map((d, i) => ({ ...d, label: days[i] })),
+  270 |           isDemoData: true,
+  271 |         };                                       react-hooks/purity
+  292:50  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx:292:50
+  290 |       revenueChartData: days.map((label) => ({
+  291 |         label,
+> 292 |         revenue: Math.round(baseRevenue * (0.7 + Math.random() * 0.6)),
+      |                                                  ^^^^^^^^^^^^^ Cannot call impure function
+  293 |         expenses: Math.round(baseRevenue * (0.2 + Math.random() * 0.2)),
+  294 |         transactions: Math.max(1, Math.round(Math.random() * 20 + 5)),
+  295 |       })),                                                                   react-hooks/purity
+  293:51  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx:293:51
+  291 |         label,
+  292 |         revenue: Math.round(baseRevenue * (0.7 + Math.random() * 0.6)),
+> 293 |         expenses: Math.round(baseRevenue * (0.2 + Math.random() * 0.2)),
+      |                                                   ^^^^^^^^^^^^^ Cannot call impure function
+  294 |         transactions: Math.max(1, Math.round(Math.random() * 20 + 5)),
+  295 |       })),
+  296 |       isDemoData: true,                                                                                         react-hooks/purity
+  294:46  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard-tab.tsx:294:46
+  292 |         revenue: Math.round(baseRevenue * (0.7 + Math.random() * 0.6)),
+  293 |         expenses: Math.round(baseRevenue * (0.2 + Math.random() * 0.2)),
+> 294 |         transactions: Math.max(1, Math.round(Math.random() * 20 + 5)),
+      |                                              ^^^^^^^^^^^^^ Cannot call impure function
+  295 |       })),
+  296 |       isDemoData: true,
+  297 |     };                                                                                                      react-hooks/purity
+
+/home/z/mbumah-pos-review/src/app/tabs/dashboard/LowStockAlerts.tsx
+  227:66  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/tabs/debt-management-tab.tsx
+  211:6  warning  React Hook useMemo has missing dependencies: 'byBucket.DAYS_30', 'byBucket.DAYS_60', and 'byBucket.DAYS_90_PLUS'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/delivery-notes-tab.tsx
+  231:41  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/tabs/etims-tab.tsx
+   231:25  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   293:26  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   315:44  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   317:51  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   764:71  warning  Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  1078:65  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/home/z/mbumah-pos-review/src/app/tabs/financial-tab.tsx
+   413:9   warning  The 'journals' conditional could make the dependencies of useMemo Hook (at line 891) change on every render. To fix this, wrap the initialization of 'journals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   413:9   warning  The 'journals' conditional could make the dependencies of useMemo Hook (at line 919) change on every render. To fix this, wrap the initialization of 'journals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   413:9   warning  The 'journals' conditional could make the dependencies of useMemo Hook (at line 997) change on every render. To fix this, wrap the initialization of 'journals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   413:9   warning  The 'journals' conditional could make the dependencies of useCallback Hook (at line 1035) change on every render. To fix this, wrap the initialization of 'journals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/exhaustive-deps
+   414:9   warning  The 'accounts' conditional could make the dependencies of useMemo Hook (at line 956) change on every render. To fix this, wrap the initialization of 'accounts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   414:9   warning  The 'accounts' conditional could make the dependencies of useMemo Hook (at line 997) change on every render. To fix this, wrap the initialization of 'accounts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   415:9   warning  The 'debts' conditional could make the dependencies of useMemo Hook (at line 761) change on every render. To fix this, wrap the initialization of 'debts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+   415:9   warning  The 'debts' conditional could make the dependencies of useCallback Hook (at line 1047) change on every render. To fix this, wrap the initialization of 'debts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+   771:9   warning  The 'revenueTrendData' conditional could make the dependencies of useMemo Hook (at line 800) change on every render. To fix this, wrap the initialization of 'revenueTrendData' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   771:9   warning  The 'revenueTrendData' conditional could make the dependencies of useMemo Hook (at line 891) change on every render. To fix this, wrap the initialization of 'revenueTrendData' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   771:9   warning  The 'revenueTrendData' conditional could make the dependencies of useMemo Hook (at line 928) change on every render. To fix this, wrap the initialization of 'revenueTrendData' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   771:9   warning  The 'revenueTrendData' conditional could make the dependencies of useMemo Hook (at line 939) change on every render. To fix this, wrap the initialization of 'revenueTrendData' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   775:9   warning  The 'paymentBreakdown' conditional could make the dependencies of useMemo Hook (at line 800) change on every render. To fix this, wrap the initialization of 'paymentBreakdown' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+   942:51  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/financial-tab.tsx:942:51
+  940 |
+  941 |   // Simulated previous period data for trend comparison
+> 942 |   const prevPeriodRevenue = totalRevenue * (0.8 + Math.random() * 0.4);
+      |                                                   ^^^^^^^^^^^^^ Cannot call impure function
+  943 |   const revenueTrend = prevPeriodRevenue > 0 ? ((totalRevenue - prevPeriodRevenue) / prevPeriodRevenue) * 100 : 0;
+  944 |
+  945 |   const prevPeriodDebt = agingTotal * (0.9 + Math.random() * 0.2);  react-hooks/purity
+   945:46  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/financial-tab.tsx:945:46
+  943 |   const revenueTrend = prevPeriodRevenue > 0 ? ((totalRevenue - prevPeriodRevenue) / prevPeriodRevenue) * 100 : 0;
+  944 |
+> 945 |   const prevPeriodDebt = agingTotal * (0.9 + Math.random() * 0.2);
+      |                                              ^^^^^^^^^^^^^ Cannot call impure function
+  946 |   const debtTrend = prevPeriodDebt > 0 ? ((agingTotal - prevPeriodDebt) / prevPeriodDebt) * 100 : 0;
+  947 |
+  948 |   // Group accounts by type       react-hooks/purity
+   967:6   warning  React Hook useMemo has a missing dependency: 'accountTypeOrder'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+  1958:71  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react/no-unescaped-entities
+  1958:86  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react/no-unescaped-entities
+
+/home/z/mbumah-pos-review/src/app/tabs/financial/BudgetsPanel.tsx
+   88:9  warning  The 'periods' conditional could make the dependencies of useEffect Hook (at line 98) change on every render. To fix this, wrap the initialization of 'periods' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  116:9  warning  The 'budgets' conditional could make the dependencies of useMemo Hook (at line 234) change on every render. To fix this, wrap the initialization of 'budgets' in its own useMemo() Hook   react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/financial/ReportsPanel.tsx
+  92:29  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/financial/ReportsPanel.tsx:92:29
+  90 | function ProfitAndLossReport({ storeId }: { storeId: string }) {
+  91 |   const today = new Date().toISOString().split('T')[0];
+> 92 |   const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
+     |                             ^^^^^^^^^^ Cannot call impure function
+  93 |   const [dateFrom, setDateFrom] = useState(monthAgo);
+  94 |   const [dateTo, setDateTo] = useState(today);
+  95 |  react-hooks/purity
+
+/home/z/mbumah-pos-review/src/app/tabs/financial/TrialBalancePanel.tsx
+  126:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/tabs/inventory-tab.tsx
+   410:9   warning  The 'allProducts' conditional could make the dependencies of useMemo Hook (at line 441) change on every render. To fix this, wrap the initialization of 'allProducts' in its own useMemo() Hook                                                                                          react-hooks/exhaustive-deps
+   410:9   warning  The 'allProducts' conditional could make the dependencies of useMemo Hook (at line 471) change on every render. To fix this, wrap the initialization of 'allProducts' in its own useMemo() Hook                                                                                          react-hooks/exhaustive-deps
+   444:9   warning  The 'stockMovements' conditional could make the dependencies of useMemo Hook (at line 460) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'stockMovements' in its own useMemo() Hook                                             react-hooks/exhaustive-deps
+  1128:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  1436:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/app/tabs/invoices-tab.tsx
+  258:36  warning  Forbidden non-null assertion                                                                                                                                                                     @typescript-eslint/no-non-null-assertion
+  303:9   warning  The 'rawInvoices' conditional could make the dependencies of useMemo Hook (at line 335) change on every render. To fix this, wrap the initialization of 'rawInvoices' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  303:9   warning  The 'rawInvoices' conditional could make the dependencies of useMemo Hook (at line 352) change on every render. To fix this, wrap the initialization of 'rawInvoices' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/loyalty-tab.tsx
+   236:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   236:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   237:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   237:85  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   238:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   238:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   239:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   239:85  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   240:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   240:97  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1069:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1352:95  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1443:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/z/mbumah-pos-review/src/app/tabs/messaging-tab.tsx
+  315:9  warning  The 'messages' conditional could make the dependencies of useMemo Hook (at line 327) change on every render. To fix this, wrap the initialization of 'messages' in its own useMemo() Hook                  react-hooks/exhaustive-deps
+  315:9  warning  The 'messages' conditional could make the dependencies of useMemo Hook (at line 343) change on every render. To fix this, wrap the initialization of 'messages' in its own useMemo() Hook                  react-hooks/exhaustive-deps
+  316:9  warning  The 'customers' conditional could make the dependencies of useMemo Hook (at line 404) change on every render. To fix this, wrap the initialization of 'customers' in its own useMemo() Hook                react-hooks/exhaustive-deps
+  317:9  warning  The 'overdueDebts' conditional could make the dependencies of useMemo Hook (at line 368) change on every render. To fix this, wrap the initialization of 'overdueDebts' in its own useMemo() Hook          react-hooks/exhaustive-deps
+  317:9  warning  The 'overdueDebts' conditional could make the dependencies of useMemo Hook (at line 397) change on every render. To fix this, wrap the initialization of 'overdueDebts' in its own useMemo() Hook          react-hooks/exhaustive-deps
+  318:9  warning  The 'outstandingDebts' conditional could make the dependencies of useMemo Hook (at line 397) change on every render. To fix this, wrap the initialization of 'outstandingDebts' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/payroll-tab.tsx
+   407:9   warning  The 'employees' conditional could make the dependencies of useMemo Hook (at line 436) change on every render. To fix this, wrap the initialization of 'employees' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+  1392:28  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/payroll-tab.tsx:1392:28
+  1390 |   const qc = useQueryClient();
+  1391 |   const today = new Date().toISOString().slice(0, 10);
+> 1392 |   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+       |                            ^^^^^^^^^^ Cannot call impure function
+  1393 |   const [startDate, setStartDate] = useState(weekAgo);
+  1394 |   const [endDate, setEndDate] = useState(today);
+  1395 |   const [clockEmpId, setClockEmpId] = useState('');  react-hooks/purity
+
+/home/z/mbumah-pos-review/src/app/tabs/pos-tab.tsx
+   175:6   warning  React Hook useEffect has a missing dependency: 'holdCart'. Either include it or remove the dependency array                                                                                                                                                                              react-hooks/exhaustive-deps
+   336:7   warning  Unexpected console statement. Only these console methods are allowed: warn, error, info                                                                                                                                                                                                  no-console
+   522:6   warning  React Hook useCallback has a missing dependency: 'clearStkPolling'. Either include it or remove the dependency array                                                                                                                                                                     react-hooks/exhaustive-deps
+   564:9   warning  The 'recommendations' conditional could make the dependencies of useMemo Hook (at line 579) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'recommendations' in its own useMemo() Hook                                           react-hooks/exhaustive-deps
+   565:49  warning  Forbidden non-null assertion                                                                                                                                                                                                                                                             @typescript-eslint/no-non-null-assertion
+   596:9   warning  The 'products' conditional could make the dependencies of useMemo Hook (at line 985) change on every render. To fix this, wrap the initialization of 'products' in its own useMemo() Hook                                                                                                react-hooks/exhaustive-deps
+   596:9   warning  The 'products' conditional could make the dependencies of useMemo Hook (at line 1007) change on every render. To fix this, wrap the initialization of 'products' in its own useMemo() Hook                                                                                               react-hooks/exhaustive-deps
+   624:6   warning  React Hook useEffect has missing dependencies: 'appliedGiftCardId', 'appliedVoucherId', 'customerGiftCards', and 'customerVouchers'. Either include them or remove the dependency array                                                                                                  react-hooks/exhaustive-deps
+   743:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error, info                                                                                                                                                                                                  no-console
+   781:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error, info                                                                                                                                                                                                  no-console
+  1209:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  1209:63  warning  Forbidden non-null assertion                                                                                                                                                                                                                                                             @typescript-eslint/no-non-null-assertion
+  1309:31  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/app/tabs/purchase-orders-tab.tsx
+  730:42  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  737:38  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  751:48  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx
+    41:15   warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:41:15
+  39 |   const start = new Date(rental.rentalStartDate).getTime();
+  40 |   const expected = new Date(rental.expectedReturnDate).getTime();
+> 41 |   const now = Date.now();
+     |               ^^^^^^^^^^ Cannot call impure function
+  42 |   const actual = rental.actualReturnDate ? new Date(rental.actualReturnDate).getTime() : null;
+  43 |   const isOverdue = rental.status === 'OVERDUE' || (!actual && now > expected);
+  44 |   const isReturned = rental.status === 'RETURNED' || rental.status === 'DAMAGED';                                                                                                                                                                      react-hooks/purity
+    94:103  warning  Forbidden non-null assertion                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-non-null-assertion
+   159:82   warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:159:82
+  157 |             <span className="text-muted-foreground">Estimated rental days:</span>
+  158 |             <span className="font-medium">
+> 159 |               {Math.max(Math.ceil((new Date(form.expectedReturnDate).getTime() - Date.now()) / 86400000), 1)}
+      |                                                                                  ^^^^^^^^^^ Cannot call impure function
+  160 |             </span>
+  161 |           </div>
+  162 |           <div className="flex justify-between mt-1">                                                                                                                                                                              react-hooks/purity
+   165:108  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:165:108
+  163 |             <span className="text-muted-foreground">Estimated total:</span>
+  164 |             <span className="font-bold text-primary">
+> 165 |               {formatKES(effectiveRate * Math.max(Math.ceil((new Date(form.expectedReturnDate).getTime() - Date.now()) / 86400000), 1))}
+      |                                                                                                            ^^^^^^^^^^ Cannot call impure function
+  166 |             </span>
+  167 |           </div>
+  168 |         </div>                                                                                                                                                          react-hooks/purity
+   221:15   warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:221:15
+  219 |   // Calculate late fee
+  220 |   const expectedReturn = new Date(rental.expectedReturnDate).getTime();
+> 221 |   const now = Date.now();
+      |               ^^^^^^^^^^ Cannot call impure function
+  222 |   const daysLate = Math.max(Math.ceil((now - expectedReturn) / 86400000), 0);
+  223 |   const isOverdue = daysLate > 0;
+  224 |   const calculatedLateFee = isOverdue ? daysLate * Number(lateFeeRate || 0) : 0;                                                                                                                                                                                                                                                            react-hooks/purity
+   700:85   warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:700:85
+  698 |       {rentals.map(rental => {
+  699 |         const daysRented = Math.ceil(
+> 700 |           ((rental.actualReturnDate ? new Date(rental.actualReturnDate).getTime() : Date.now()) - new Date(rental.rentalStartDate).getTime()) / 86400000
+      |                                                                                     ^^^^^^^^^^ Cannot call impure function
+  701 |         );
+  702 |         const isOverdue = rental.status === 'OVERDUE';
+  703 |                                                                                                                                                                                                                 react-hooks/purity
+   735:48   warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:735:48
+  733 |                 <div className="flex items-center gap-1 text-[10px] text-red-600 dark:text-red-400">
+  734 |                   <AlertTriangle className="h-3 w-3" />
+> 735 |                   <span>Overdue by {Math.ceil((Date.now() - new Date(rental.expectedReturnDate).getTime()) / 86400000)} days</span>
+      |                                                ^^^^^^^^^^ Cannot call impure function
+  736 |                 </div>
+  737 |               )}
+  738 |               {(rental.status === 'ACTIVE' || rental.status === 'OVERDUE') && (                                                                                                                             react-hooks/purity
+   835:9    warning  The 'rentals' conditional could make the dependencies of useMemo Hook (at line 845) change on every render. To fix this, wrap the initialization of 'rentals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+   835:9    warning  The 'rentals' conditional could make the dependencies of useMemo Hook (at line 854) change on every render. To fix this, wrap the initialization of 'rentals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+   835:9    warning  The 'rentals' conditional could make the dependencies of useMemo Hook (at line 865) change on every render. To fix this, wrap the initialization of 'rentals' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+   836:9    warning  The 'products' conditional could make the dependencies of useMemo Hook (at line 865) change on every render. To fix this, wrap the initialization of 'products' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  1268:103  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:1268:103
+  1266 |                           const isOverdue = rental.status === 'OVERDUE';
+  1267 |                           const daysRented = Math.ceil(
+> 1268 |                             ((rental.actualReturnDate ? new Date(rental.actualReturnDate).getTime() : Date.now()) - new Date(rental.rentalStartDate).getTime()) / 86400000
+       |                                                                                                       ^^^^^^^^^^ Cannot call impure function
+  1269 |                           );
+  1270 |                           const revPerDay = daysRented > 0 ? rental.totalRentalCharge / daysRented : 0;
+  1271 |                           return (  react-hooks/purity
+  1291:49   warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/rentals-tab.tsx:1291:49
+  1289 |                                 {isOverdue && (
+  1290 |                                   <p className="text-[10px] text-red-500 mt-0.5 font-medium">
+> 1291 |                                     {Math.ceil((Date.now() - new Date(rental.expectedReturnDate).getTime()) / 86400000)}d overdue
+       |                                                 ^^^^^^^^^^ Cannot call impure function
+  1292 |                                   </p>
+  1293 |                                 )}
+  1294 |                               </TableCell>                                                                                                                                        react-hooks/purity
+
+/home/z/mbumah-pos-review/src/app/tabs/reports-tab.tsx
+  1062:59  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/reports-tab.tsx:1062:59
+  1060 |   const salesComparison = useMemo(() => {
+  1061 |     if (!salesReport) return null;
+> 1062 |     const prevRevenue = salesReport.totalRevenue * (0.7 + Math.random() * 0.4);
+       |                                                           ^^^^^^^^^^^^^ Cannot call impure function
+  1063 |     const revenueChange = salesReport.totalRevenue > 0
+  1064 |       ? ((salesReport.totalRevenue - prevRevenue) / prevRevenue) * 100
+  1065 |       : 0;                                                                      react-hooks/purity
+  1066:79  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/reports-tab.tsx:1066:79
+  1064 |       ? ((salesReport.totalRevenue - prevRevenue) / prevRevenue) * 100
+  1065 |       : 0;
+> 1066 |     const prevTransactions = Math.round(salesReport.transactionCount * (0.7 + Math.random() * 0.4));
+       |                                                                               ^^^^^^^^^^^^^ Cannot call impure function
+  1067 |     const transactionChange = salesReport.transactionCount > 0
+  1068 |       ? ((salesReport.transactionCount - prevTransactions) / prevTransactions) * 100
+  1069 |       : 0;  react-hooks/purity
+  1073:9   warning  The 'topProducts' conditional could make the dependencies of useMemo Hook (at line 1136) change on every render. To fix this, wrap the initialization of 'topProducts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+  1073:9   warning  The 'topProducts' conditional could make the dependencies of useCallback Hook (at line 1286) change on every render. To fix this, wrap the initialization of 'topProducts' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+  1074:9   warning  The 'categoryBreakdown' conditional could make the dependencies of useMemo Hook (at line 1087) change on every render. To fix this, wrap the initialization of 'categoryBreakdown' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/exhaustive-deps
+  1074:9   warning  The 'categoryBreakdown' conditional could make the dependencies of useMemo Hook (at line 1127) change on every render. To fix this, wrap the initialization of 'categoryBreakdown' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/exhaustive-deps
+  1074:9   warning  The 'categoryBreakdown' conditional could make the dependencies of useCallback Hook (at line 1286) change on every render. To fix this, wrap the initialization of 'categoryBreakdown' in its own useMemo() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+  1115:25  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/app/tabs/reports-tab.tsx:1115:25
+  1113 |     return hours.map(h => ({
+  1114 |       label: h,
+> 1115 |       value: Math.round(Math.random() * 15000 + 2000),
+       |                         ^^^^^^^^^^^^^ Cannot call impure function
+  1116 |     }));
+  1117 |   }, [reportType]);
+  1118 |                                                                                                                                                                                                                                                                             react-hooks/purity
+  1117:6   warning  React Hook useMemo has an unnecessary dependency: 'reportType'. Either exclude it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/suppliers-tab.tsx
+   368:60  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  1233:40  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  1243:35  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  1257:35  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  1966:37  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  1981:37  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/app/tabs/tax-tab.tsx
+  389:9  warning  The 'filings' conditional could make the dependencies of useMemo Hook (at line 394) change on every render. To fix this, wrap the initialization of 'filings' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  389:9  warning  The 'filings' conditional could make the dependencies of useMemo Hook (at line 398) change on every render. To fix this, wrap the initialization of 'filings' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  389:9  warning  The 'filings' conditional could make the dependencies of useMemo Hook (at line 402) change on every render. To fix this, wrap the initialization of 'filings' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/transactions-tab.tsx
+  326:18  warning  Forbidden non-null assertion                                                                                                                                                                                                                                                             @typescript-eslint/no-non-null-assertion
+  379:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  745:9   warning  The 'transactions' conditional could make the dependencies of useMemo Hook (at line 768) change on every render. To fix this, wrap the initialization of 'transactions' in its own useMemo() Hook                                                                                        react-hooks/exhaustive-deps
+  745:9   warning  The 'transactions' conditional could make the dependencies of useMemo Hook (at line 795) change on every render. To fix this, wrap the initialization of 'transactions' in its own useMemo() Hook                                                                                        react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/transfers-tab.tsx
+  281:9  warning  The 'transfers' conditional could make the dependencies of useMemo Hook (at line 286) change on every render. To fix this, wrap the initialization of 'transfers' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  281:9  warning  The 'transfers' conditional could make the dependencies of useMemo Hook (at line 287) change on every render. To fix this, wrap the initialization of 'transfers' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  281:9  warning  The 'transfers' conditional could make the dependencies of useMemo Hook (at line 292) change on every render. To fix this, wrap the initialization of 'transfers' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  281:9  warning  The 'transfers' conditional could make the dependencies of useMemo Hook (at line 295) change on every render. To fix this, wrap the initialization of 'transfers' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/app/tabs/vouchers-tab.tsx
+  410:9  warning  The 'vouchers' conditional could make the dependencies of useMemo Hook (at line 430) change on every render. To fix this, wrap the initialization of 'vouchers' in its own useMemo() Hook    react-hooks/exhaustive-deps
+  410:9  warning  The 'vouchers' conditional could make the dependencies of useMemo Hook (at line 445) change on every render. To fix this, wrap the initialization of 'vouchers' in its own useMemo() Hook    react-hooks/exhaustive-deps
+  410:9  warning  The 'vouchers' conditional could make the dependencies of useMemo Hook (at line 465) change on every render. To fix this, wrap the initialization of 'vouchers' in its own useMemo() Hook    react-hooks/exhaustive-deps
+  411:9  warning  The 'campaigns' conditional could make the dependencies of useMemo Hook (at line 465) change on every render. To fix this, wrap the initialization of 'campaigns' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/components/confetti-overlay.tsx
+  42:27  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/components/confetti-overlay.tsx:42:27
+  40 |             height: `${p.size}px`,
+  41 |             backgroundColor: p.color,
+> 42 |             borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+     |                           ^^^^^^^^^^^^^ Cannot call impure function
+  43 |             animationDelay: `${p.delay}s`,
+  44 |             animationDuration: `${p.duration}s`,
+  45 |           }}  react-hooks/purity
+
+/home/z/mbumah-pos-review/src/components/debt-plans/plan-details-dialog.tsx
+  129:57  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  141:34  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  152:34  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  163:34  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  174:56  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/components/debt-plans/waive-installment-dialog.tsx
+  96:62  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/home/z/mbumah-pos-review/src/components/error-boundary.tsx
+   60:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   68:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   69:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  429:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/z/mbumah-pos-review/src/components/layout/app-sidebar.tsx
+  164:7   warning  The attribute aria-expanded is not supported by the role navigation                                                                                                                                                                                                                      jsx-a11y/role-supports-aria-props
+  169:9   warning  aria-collapsed: This attribute is an invalid ARIA attribute                                                                                                                                                                                                                              jsx-a11y/aria-props
+  182:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/components/login-screen.tsx
+  129:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/components/loyalty/redeem-dialog.tsx
+  130:90  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/home/z/mbumah-pos-review/src/components/notification-center.tsx
+  74:9  warning  The 'allNotifications' logical expression could make the dependencies of useMemo Hook (at line 79) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'allNotifications' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/components/pos/category-chips.tsx
+  152:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/components/pos/low-stock-alert-dialog.tsx
+  27:9  warning  The 'products' conditional could make the dependencies of useMemo Hook (at line 31) change on every render. To fix this, wrap the initialization of 'products' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  27:9  warning  The 'products' conditional could make the dependencies of useMemo Hook (at line 36) change on every render. To fix this, wrap the initialization of 'products' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/home/z/mbumah-pos-review/src/components/pos/product-card.tsx
+   65:51  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/components/pos/product-card.tsx:65:51
+  63 |   // Check if product is new (created within last 7 days)
+  64 |   const isNew = useMemo(() => {
+> 65 |     const created = new Date(product.createdAt || Date.now());
+     |                                                   ^^^^^^^^^^ Cannot call impure function
+  66 |     const sevenDaysAgo = new Date();
+  67 |     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  68 |     return created > sevenDaysAgo;  react-hooks/purity
+  167:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @next/next/no-img-element
+  175:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @next/next/no-img-element
+  176:18  warning  Forbidden non-null assertion                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/components/product-image-upload.tsx
+  129:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/z/mbumah-pos-review/src/components/ui/sidebar.tsx
+  611:26  warning  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/components/ui/sidebar.tsx:611:26
+  609 |   // Random width between 50 to 90%.
+  610 |   const width = React.useMemo(() => {
+> 611 |     return `${Math.floor(Math.random() * 40) + 50}%`
+      |                          ^^^^^^^^^^^^^ Cannot call impure function
+  612 |   }, [])
+  613 |
+  614 |   return (  react-hooks/purity
+
+/home/z/mbumah-pos-review/src/hooks/use-idle-timeout.ts
+  10:42  warning  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/z/mbumah-pos-review/src/hooks/use-idle-timeout.ts:10:42
+   8 | export function useIdleTimeout(onTimeout: () => void, timeoutMs: number = IDLE_TIMEOUT_MS) {
+   9 |   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+> 10 |   const lastActivityRef = useRef<number>(Date.now());
+     |                                          ^^^^^^^^^^ Cannot call impure function
+  11 |
+  12 |   const resetTimer = useCallback(() => {
+  13 |     lastActivityRef.current = Date.now();  react-hooks/purity
+
+/home/z/mbumah-pos-review/src/hooks/use-table-filters.ts
+  107:25  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  117:22  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  118:22  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/lib/access-control.ts
+  28:1  warning  Imports "UserRole" are only used as type  @typescript-eslint/consistent-type-imports
+
+/home/z/mbumah-pos-review/src/lib/account-helper.ts
+   68:12  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  116:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/lib/db.ts
+  401:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  404:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  407:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  410:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  413:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  416:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  419:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  422:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  425:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  428:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  438:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  442:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  446:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  450:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  456:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  460:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  464:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  468:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  474:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  478:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  482:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  486:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  492:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  496:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  500:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  504:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  511:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  515:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  519:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  523:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  530:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  534:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  538:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  542:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  564:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  572:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/z/mbumah-pos-review/src/lib/financial-audit.ts
+  213:5  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/lib/receipt-distribution.ts
+  387:43  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  387:60  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/home/z/mbumah-pos-review/src/lib/sentry.ts
+   78:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  163:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/z/mbumah-pos-review/src/tests/lib/account-helper.test.ts
+  118:19  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  121:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  121:57  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  122:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  125:27  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  127:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  128:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  131:23  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  133:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  136:24  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  138:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  139:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  142:14  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  146:69  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  185:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  186:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  189:27  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  190:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  193:28  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  195:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  196:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  199:24  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  200:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  236:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  237:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  240:22  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  242:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  243:21  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  246:24  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+✖ 362 problems (0 errors, 362 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
