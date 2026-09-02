@@ -6,6 +6,8 @@ import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 // GET /api/inventory - List adjustments + lowStock type using per-product reorderLevel
 export async function GET(request: NextRequest) {
   try {
+    // NOTE: Unknown query params (e.g., storeId) are safely ignored.
+    // This provides forward-compatibility with multi-store deployments.
     const { searchParams } = request.nextUrl;
     const type = searchParams.get('type') || 'adjustments';
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));

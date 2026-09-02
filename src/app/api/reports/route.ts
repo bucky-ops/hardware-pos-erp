@@ -6,6 +6,8 @@ import { toErrorResponse } from '@/lib/api-errors';
 // GET /api/reports - Sales summary with dailyData and paymentData
 export async function GET(request: NextRequest) {
   try {
+    // NOTE: Unknown query params (e.g., storeId) are safely ignored.
+    // This provides forward-compatibility with multi-store deployments.
     const { searchParams } = request.nextUrl;
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');

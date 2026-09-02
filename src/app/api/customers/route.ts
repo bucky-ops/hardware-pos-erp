@@ -5,6 +5,8 @@ import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 // GET /api/customers - List customers with search and pagination
 export async function GET(request: NextRequest) {
   try {
+    // NOTE: Unknown query params (e.g., storeId) are safely ignored.
+    // This provides forward-compatibility with multi-store deployments.
     const { searchParams } = request.nextUrl;
     const search = searchParams.get('search') || '';
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));

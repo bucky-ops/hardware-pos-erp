@@ -5,6 +5,8 @@ import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 // GET /api/products - List products with search, category, isActive, lowStock, ids filters, pagination
 export async function GET(request: NextRequest) {
   try {
+    // NOTE: Unknown query params (e.g., storeId) are safely ignored.
+    // This provides forward-compatibility with multi-store deployments.
     const { searchParams } = request.nextUrl;
     const search = searchParams.get('search') || '';
     const categoryId = searchParams.get('categoryId');

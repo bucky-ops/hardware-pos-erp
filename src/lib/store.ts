@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { CartItem, ViewName } from './types';
+export { STORE_LIST, DEFAULT_STORE_ID, type StoreLocation } from './types';
 
 /* ------------------------------------------------------------------
    Navigation Store — includes sidebar collapsed state

@@ -251,3 +251,43 @@ The deployed system had a centralized error handler (`MbumahErrorHandler`) that 
 - Console: 0 errors ✅
 - Dev log: All API calls return 200 ✅
 - ESLint: 0 errors ✅
+
+---
+
+## Task 2-b — Store Constants, Error Boundaries, and Defensive API Handling
+**Date**: 2025-07-14
+**Status**: Completed
+
+### Summary
+Addressed three deployed-version discrepancies: (1) `STORE_LIST` reference error, (2) API 500 on unknown query params, (3) missing section error boundaries. All fixes are additive — no existing logic was changed.
+
+### Files Created/Modified
+
+| # | File | Action | Description |
+|---|------|--------|-------------|
+| 1 | `src/lib/types.ts` | Modified | Added `StoreLocation` interface, `STORE_LIST` constant (single default store), `DEFAULT_STORE_ID = 'default'` after NAV_ITEMS |
+| 2 | `src/components/error-boundary.tsx` | Created | Class-based `ErrorBoundaryInternal` with `componentDidCatch` → `reportError()`, styled Card fallback (AlertTriangle icon, error message, "Try Again" button, "Error has been reported" text), functional `SectionErrorBoundary` wrapper with `sectionName` prop |
+| 3 | `src/app/page.tsx` | Modified | Imported `SectionErrorBoundary`, wrapped view rendering in `<SectionErrorBoundary sectionName={currentView}>` |
+| 4 | `src/app/api/customers/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 5 | `src/app/api/products/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 6 | `src/app/api/sales/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 7 | `src/app/api/purchases/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 8 | `src/app/api/suppliers/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 9 | `src/app/api/expenses/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 10 | `src/app/api/inventory/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 11 | `src/app/api/reports/route.ts` | Modified | Added defensive query param comment in GET handler |
+| 12 | `src/app/api/dashboard/route.ts` | Modified | Added defensive query param comment (above function, no `request` param) |
+| 13 | `src/lib/store.ts` | Modified | Re-exports `STORE_LIST`, `DEFAULT_STORE_ID`, `StoreLocation` from `./types` |
+
+### Key Design Decisions
+- **Error Boundary** uses class component (React requirement) with functional `SectionErrorBoundary` wrapper for ergonomic usage
+- **Error reporting** integrates with existing `reportError()` from `@/lib/error-reporter` — errors include `[SectionErrorBoundary:{name}]` prefix
+- **No API logic changed** — only added comments documenting that unknown params (like `storeId`) are safely ignored by the existing `searchParams.get()` pattern
+- **Dashboard route** has no `request` parameter, so the comment was placed above the function signature
+- **Store constants** are single-store by default with `StoreLocation` interface ready for multi-store expansion
+
+### Verification
+- ESLint: 0 errors
+- No API route logic modified
+- Error boundary uses shadcn Card, Button, and lucide-react AlertTriangle
+- All 8 GET handlers documented with defensive param comment

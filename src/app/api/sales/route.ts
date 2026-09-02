@@ -7,6 +7,8 @@ const VALID_PAYMENT_METHODS = ['cash', 'card', 'mobile_money', 'bank_transfer', 
 // GET /api/sales - List sales with search, status, date filter, pagination
 export async function GET(request: NextRequest) {
   try {
+    // NOTE: Unknown query params (e.g., storeId) are safely ignored.
+    // This provides forward-compatibility with multi-store deployments.
     const { searchParams } = request.nextUrl;
     const search = searchParams.get('search') || '';
     const status = searchParams.get('status');

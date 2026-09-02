@@ -3,6 +3,8 @@ import { db } from '@/lib/db';
 import { toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/dashboard - Aggregate stats using Promise.all for parallel queries
+// NOTE: Unknown query params (e.g., storeId) are safely ignored.
+// This provides forward-compatibility with multi-store deployments.
 export async function GET() {
   try {
     const today = new Date();

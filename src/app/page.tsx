@@ -5,6 +5,7 @@ import { useNavStore, useSettingsStore } from '@/lib/store';
 import { NAV_ITEMS, type ViewName } from '@/lib/types';
 import { initGlobalErrorReporting, reportApiError, reportError } from '@/lib/error-reporter';
 import { cn } from '@/lib/utils';
+import { SectionErrorBoundary } from '@/components/error-boundary';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -284,11 +285,13 @@ export default function Home() {
 
         {/* View Content */}
         <div className='flex-1 overflow-auto'>
-          {ViewComponent ? <ViewComponent /> : (
-            <div className='flex h-full items-center justify-center text-muted-foreground'>
-              View not found
-            </div>
-          )}
+          <SectionErrorBoundary sectionName={currentView}>
+            {ViewComponent ? <ViewComponent /> : (
+              <div className='flex h-full items-center justify-center text-muted-foreground'>
+                View not found
+              </div>
+            )}
+          </SectionErrorBoundary>
         </div>
       </main>
     </div>

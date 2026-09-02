@@ -44,3 +44,26 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'error-log', label: 'Error Log', icon: 'Bug' },
   { key: 'settings', label: 'Settings', icon: 'Settings' },
 ];
+
+/* ------------------------------------------------------------------
+   Store / Multi-Location Constants
+   ------------------------------------------------------------------ */
+export interface StoreLocation {
+  id: string;
+  name: string;
+  address?: string;
+  phone?: string;
+  isActive: boolean;
+}
+
+/** Available store locations — single store by default, expandable for multi-store */
+export const STORE_LIST: StoreLocation[] = [
+  {
+    id: 'default',
+    name: 'Hardware Store',
+    isActive: true,
+  },
+];
+
+/** Current active store ID (single-store mode) */
+export const DEFAULT_STORE_ID = 'default';
