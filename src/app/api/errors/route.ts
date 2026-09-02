@@ -1,19 +1,25 @@
 import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 /** POST /api/errors — Log a client-side error */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { level, message, stack, component, action, url, userAgent } = body;
+    const { level, code, statusCode, message, stack, component, action, url, userAgent } = body;
 
     if (!message) {
-      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
+      return NextResponse.json(
+        new ApiError('Message is required', ErrorCode.VALIDATION_ERROR),
+        { status: 400 },
+      );
     }
 
     await db.errorLog.create({
       data: {
         level: level || 'error',
+        code: code ? String(code).slice(0, 50) : null,
+        statusCode: statusCode ? parseInt(statusCode, 10) : null,
         message: String(message).slice(0, 2000),
         stack: stack ? String(stack).slice(0, 5000) : null,
         component: component ? String(component).slice(0, 100) : null,
@@ -59,8 +65,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ errors, total, page, limit, unresolvedCount });
   } catch (error) {
-    console.error('Error log fetch failed:', error);
-    return NextResponse.json({ error: 'Failed to fetch error logs' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -77,7 +82,7 @@ export async function DELETE(request: NextRequest) {
     }
     return NextResponse.json({ ok: true });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to clear errors' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -86,11 +91,14 @@ export async function PATCH(request: NextRequest) {
   try {
     const { ids } = await request.json();
     if (!Array.isArray(ids) || ids.length === 0) {
-      return NextResponse.json({ error: 'ids array required' }, { status: 400 });
+      return NextResponse.json(
+        new ApiError('ids array required', ErrorCode.VALIDATION_ERROR),
+        { status: 400 },
+      );
     }
     await db.errorLog.updateMany({ where: { id: { in: ids } }, data: { resolved: true } });
     return NextResponse.json({ ok: true, resolved: ids.length });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to resolve errors' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

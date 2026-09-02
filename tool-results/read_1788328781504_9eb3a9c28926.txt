@@ -1,0 +1,1160 @@
+     1→     1→'use client';
+     2→     2→
+     3→     3→import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+     4→     4→import { usePOSCartStore, useSettingsStore } from '@/lib/store';
+     5→     5→import { toast } from 'sonner';
+     6→     6→import { Button } from '@/components/ui/button';
+     7→     7→import { Input } from '@/components/ui/input';
+     8→     8→import { Badge } from '@/components/ui/badge';
+     9→     9→import { Skeleton } from '@/components/ui/skeleton';
+    10→    10→import { ScrollArea } from '@/components/ui/scroll-area';
+    11→    11→import { Separator } from '@/components/ui/separator';
+    12→    12→import {
+    13→    13→  Dialog,
+    14→    14→  DialogContent,
+    15→    15→  DialogHeader,
+    16→    16→  DialogTitle,
+    17→    17→  DialogFooter,
+    18→    18→} from '@/components/ui/dialog';
+    19→    19→import {
+    20→    20→  Select,
+    21→    21→  SelectContent,
+    22→    22→  SelectItem,
+    23→    23→  SelectTrigger,
+    24→    24→  SelectValue,
+    25→    25→} from '@/components/ui/select';
+    26→    26→import {
+    27→    27→  Search,
+    28→    28→  Barcode,
+    29→    29→  Plus,
+    30→    30→  Minus,
+    31→    31→  Trash2,
+    32→    32→  ShoppingCart,
+    33→    33→  Banknote,
+    34→    34→  CreditCard,
+    35→    35→  Smartphone,
+    36→    36→  Building2,
+    37→    37→  Receipt,
+    38→    38→  X,
+    39→    39→  ChevronLeft,
+    40→    40→  ChevronRight,
+    41→    41→  Package,
+    42→    42→  Loader2,
+    43→    43→} from 'lucide-react';
+    44→    44→import { cn } from '@/lib/utils';
+    45→    45→import type { CartItem } from '@/lib/types';
+    46→    46→
+    47→    47→/* ------------------------------------------------------------------
+    48→    48→   Types
+    49→    49→   ------------------------------------------------------------------ */
+    50→    50→interface Product {
+    51→    51→  id: string;
+    52→    52→  name: string;
+    53→    53→  sku: string;
+    54→    54→  currentStock: number;
+    55→    55→  sellingPrice: number;
+    56→    56→  costPrice: number;
+    57→    57→  maxDiscount: number;
+    58→    58→  reorderLevel?: number;
+    59→    59→  categoryId?: string;
+    60→    60→  category?: { name: string };
+    61→    61→  barcode?: string;
+    62→    62→  isActive?: boolean;
+    63→    63→}
+    64→    64→
+    65→    65→interface Category {
+    66→    66→  id: string;
+    67→    67→  name: string;
+    68→    68→  _count?: { products: number };
+    69→    69→}
+    70→    70→
+    71→    71→interface Customer {
+    72→    72→  id: string;
+    73→    73→  name: string;
+    74→    74→  phone?: string;
+    75→    75→}
+    76→    76→
+    77→    77→interface SaleResult {
+    78→    78→  sale: {
+    79→    79→    id: string;
+    80→    80→    invoiceNo: string;
+    81→    81→    createdAt: string;
+    82→    82→  };
+    83→    83→}
+    84→    84→
+    85→    85→interface InvalidItem {
+    86→    86→  productId: string;
+    87→    87→  productName?: string;
+    88→    88→  reason: string;
+    89→    89→}
+    90→    90→
+    91→    91→type PaymentMethod = 'cash' | 'card' | 'mobile_money' | 'bank_transfer' | 'credit';
+    92→    92→
+    93→    93→const PAYMENT_METHODS: { value: PaymentMethod; label: string; icon: React.ElementType }[] = [
+    94→    94→  { value: 'cash', label: 'Cash', icon: Banknote },
+    95→    95→  { value: 'card', label: 'Card', icon: CreditCard },
+    96→    96→  { value: 'mobile_money', label: 'Mobile Money', icon: Smartphone },
+    97→    97→  { value: 'bank_transfer', label: 'Transfer', icon: Building2 },
+    98→    98→  { value: 'credit', label: 'Credit', icon: Receipt },
+    99→    99→];
+   100→   100→
+   101→   101→/* ------------------------------------------------------------------
+   102→   102→   Helpers
+   103→   103→   ------------------------------------------------------------------ */
+   104→   104→function formatCurrency(amount: number, symbol: string): string {
+   105→   105→  return `${symbol}${amount.toFixed(2)}`;
+   106→   106→}
+   107→   107→
+   108→   108→/* ------------------------------------------------------------------
+   109→   109→   POSTerminal Component
+   110→   110→   ------------------------------------------------------------------ */
+   111→   111→export function POSTerminal() {
+   112→   112→  /* ---- Store hooks ---- */
+   113→   113→  const {
+   114→   114→    items,
+   115→   115→    customerId,
+   116→   116→    discountAmount,
+   117→   117→    addItem,
+   118→   118→    removeItem,
+   119→   119→    updateQuantity,
+   120→   120→    updateDiscount,
+   121→   121→    setCustomer,
+   122→   122→    setDiscountAmount,
+   123→   123→    clearCart,
+   124→   124→    getSubtotal,
+   125→   125→  } = usePOSCartStore();
+   126→   126→
+   127→   127→  const {
+   128→   128→    currencySymbol,
+   129→   129→    taxRate,
+   130→   130→    storeName,
+   131→   131→    address,
+   132→   132→    phone,
+   133→   133→    invoicePrefix,
+   134→   134→    receiptFooter,
+   135→   135→    loadSettings,
+   136→   136→  } = useSettingsStore();
+   137→   137→
+   138→   138→  /* ---- Local state ---- */
+   139→   139→  const [products, setProducts] = useState<Product[]>([]);
+   140→   140→  const [categories, setCategories] = useState<Category[]>([]);
+   141→   141→  const [customers, setCustomers] = useState<Customer[]>([]);
+   142→   142→  const [loading, setLoading] = useState(true);
+   143→   143→  const [searchQuery, setSearchQuery] = useState('');
+   144→   144→  const [activeCategoryId, setActiveCategoryId] = useState<string>('all');
+   145→   145→  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
+   146→   146→  const [amountTendered, setAmountTendered] = useState('');
+   147→   147→  const [processing, setProcessing] = useState(false);
+   148→   148→  const [showReceipt, setShowReceipt] = useState(false);
+   149→   149→  const [receiptData, setReceiptData] = useState<SaleResult | null>(null);
+   150→   150→  const [cartOpen, setCartOpen] = useState(false);
+   151→   151→
+   152→   152→  /* ---- Refs ---- */
+   153→   153→  const searchRef = useRef<HTMLInputElement>(null);
+   154→   154→
+   155→   155→  /* ---- Load settings ---- */
+   156→   156→  useEffect(() => {
+   157→   157→    loadSettings();
+   158→   158→  }, [loadSettings]);
+   159→   159→
+   160→   160→  /* ---- Fetch products, categories, customers ---- */
+   161→   161→  const fetchData = useCallback(async () => {
+   162→   162→    setLoading(true);
+   163→   163→    try {
+   164→   164→      const [prodRes, catRes, custRes] = await Promise.all([
+   165→   165→        fetch('/api/products?isActive=true'),
+   166→   166→        fetch('/api/categories'),
+   167→   167→        fetch('/api/customers'),
+   168→   168→      ]);
+   169→   169→      if (prodRes.ok) {
+   170→   170→        const data = await prodRes.json();
+   171→   171→        setProducts(Array.isArray(data.products) ? data.products : Array.isArray(data.data) ? data.data : []);
+   172→   172→      }
+   173→   173→      if (catRes.ok) {
+   174→   174→        const data = await catRes.json();
+   175→   175→        setCategories(Array.isArray(data.categories) ? data.categories : Array.isArray(data.data) ? data.data : []);
+   176→   176→      }
+   177→   177→      if (custRes.ok) {
+   178→   178→        const data = await custRes.json();
+   179→   179→        setCustomers(Array.isArray(data.customers) ? data.customers : Array.isArray(data.data) ? data.data : []);
+   180→   180→      }
+   181→   181→    } catch {
+   182→   182→      toast.error('Failed to load data');
+   183→   183→    } finally {
+   184→   184→      setLoading(false);
+   185→   185→    }
+   186→   186→  }, []);
+   187→   187→
+   188→   188→  useEffect(() => {
+   189→   189→    fetchData();
+   190→   190→  }, [fetchData]);
+   191→   191→
+   192→   192→  /* ---- Keyboard shortcuts ---- */
+   193→   193→  useEffect(() => {
+   194→   194→    function handleKeyDown(e: KeyboardEvent) {
+   195→   195→      if (e.key === 'F2') {
+   196→   196→        e.preventDefault();
+   197→   197→        searchRef.current?.focus();
+   198→   198→      }
+   199→   199→      if (e.key === 'Escape' && document.activeElement === searchRef.current) {
+   200→   200→        setSearchQuery('');
+   201→   201→        searchRef.current?.blur();
+   202→   202→      }
+   203→   203→    }
+   204→   204→    window.addEventListener('keydown', handleKeyDown);
+   205→   205→    return () => window.removeEventListener('keydown', handleKeyDown);
+   206→   206→  }, []);
+   207→   207→
+   208→   208→  /* ---- Computed values ---- */
+   209→   209→  const subtotal = getSubtotal();
+   210→   210→
+   211→   211→  const afterDiscount = Math.max(0, subtotal - discountAmount);
+   212→   212→
+   213→   213→  const tax = (afterDiscount * taxRate) / 100;
+   214→   214→
+   215→   215→  const total = afterDiscount + tax;
+   216→   216→
+   217→   217→  const change = paymentMethod === 'cash'
+   218→   218→    ? Math.max(0, parseFloat(amountTendered || '0') - total)
+   219→   219→    : 0;
+   220→   220→
+   221→   221→  const canPay =
+   222→   222→    items.length > 0 &&
+   223→   223→    total > 0 &&
+   224→   224→    (paymentMethod !== 'cash' || parseFloat(amountTendered || '0') >= total);
+   225→   225→
+   226→   226→  /* ---- Filtered products ---- */
+   227→   227→  const filteredProducts = useMemo(() => {
+   228→   228→    let result = products;
+   229→   229→
+   230→   230→    if (activeCategoryId !== 'all') {
+   231→   231→      result = result.filter((p) => p.categoryId === activeCategoryId);
+   232→   232→    }
+   233→   233→
+   234→   234→    if (searchQuery.trim()) {
+   235→   235→      const q = searchQuery.toLowerCase().trim();
+   236→   236→      result = result.filter(
+   237→   237→        (p) =>
+   238→   238→          p.name.toLowerCase().includes(q) ||
+   239→   239→          p.sku.toLowerCase().includes(q) ||
+   240→   240→          (p.barcode && p.barcode.toLowerCase().includes(q)),
+   241→   241→      );
+   242→   242→    }
+   243→   243→
+   244→   244→    return result;
+   245→   245→  }, [products, activeCategoryId, searchQuery]);
+   246→   246→
+   247→   247→  /* ---- Customer lookup ---- */
+   248→   248→  const selectedCustomer = useMemo(
+   249→   249→    () => customers.find((c) => c.id === customerId),
+   250→   250→    [customers, customerId],
+   251→   251→  );
+   252→   252→
+   253→   253→  /* ---- Add product to cart ---- */
+   254→   254→  const handleAddToCart = useCallback(
+   255→   255→    (product: Product) => {
+   256→   256→      if (product.currentStock <= 0) {
+   257→   257→        toast.error(`${product.name} is out of stock`);
+   258→   258→        return;
+   259→   259→      }
+   260→   260→
+   261→   261→      const existing = items.find((i) => i.productId === product.id);
+   262→   262→      if (existing && existing.quantity >= product.currentStock) {
+   263→   263→        toast.error(`Maximum stock reached for ${product.name}`);
+   264→   264→        return;
+   265→   265→      }
+   266→   266→
+   267→   267→      addItem({
+   268→   268→        productId: product.id,
+   269→   269→        productName: product.name,
+   270→   270→        sku: product.sku,
+   271→   271→        quantity: 1,
+   272→   272→        unitPrice: product.sellingPrice,
+   273→   273→        costPrice: product.costPrice,
+   274→   274→        discount: 0,
+   275→   275→        maxDiscount: product.maxDiscount,
+   276→   276→      });
+   277→   277→      toast.success(`Added ${product.name}`, { description: '1 unit added to cart' });
+   278→   278→    },
+   279→   279→    [items, addItem],
+   280→   280→  );
+   281→   281→
+   282→   282→  /* ---- Process sale ---- */
+   283→   283→  const handleProcessPayment = useCallback(async () => {
+   284→   284→    if (items.length === 0 || processing) return;
+   285→   285→
+   286→   286→    setProcessing(true);
+   287→   287→
+   288→   288→    try {
+   289→   289→      /* -- Step 1: Pre-flight validation -- */
+   290→   290→      const ids = items.map((i) => i.productId).join(',');
+   291→   291→      const validateRes = await fetch(`/api/products?ids=${ids}&isActive=true`);
+   292→   292→
+   293→   293→      if (validateRes.ok) {
+   294→   294→        const vData = await validateRes.json();
+   295→   295→        const validProducts: Product[] = vData.products ?? vData;
+   296→   296→        const validIds = new Set(validProducts.map((p: Product) => p.id));
+   297→   297→
+   298→   298→        const invalidItems = items.filter((i) => !validIds.has(i.productId));
+   299→   299→        if (invalidItems.length > 0) {
+   300→   300→          for (const inv of invalidItems) {
+   301→   301→            removeItem(inv.productId);
+   302→   302→            toast.error(`Removed: ${inv.productName}`, {
+   303→   303→              description: 'Product no longer available or inactive',
+   304→   304→            });
+   305→   305→          }
+   306→   306→          if (items.length - invalidItems.length === 0) {
+   307→   307→            setProcessing(false);
+   308→   308→            return;
+   309→   309→          }
+   310→   310→        }
+   311→   311→
+   312→   312→        // Check stock for remaining items
+   313→   313→        const validItems = items.filter((i) => validIds.has(i.productId));
+   314→   314→        const stockMap = new Map(validProducts.map((p: Product) => [p.id, p.currentStock]));
+   315→   315→        const outOfStock = validItems.filter(
+   316→   316→          (i) => (stockMap.get(i.productId) ?? 0) < i.quantity,
+   317→   317→        );
+   318→   318→
+   319→   319→        if (outOfStock.length > 0) {
+   320→   320→          for (const oos of outOfStock) {
+   321→   321→            removeItem(oos.productId);
+   322→   322→            const currentStock = stockMap.get(oos.productId) ?? 0;
+   323→   323→            toast.error(`Removed: ${oos.productName}`, {
+   324→   324→              description: currentStock > 0
+   325→   325→                ? `Only ${currentStock} in stock (need ${oos.quantity})`
+   326→   326→                : 'Out of stock',
+   327→   327→            });
+   328→   328→          }
+   329→   329→          if (validItems.length - outOfStock.length === 0) {
+   330→   330→            setProcessing(false);
+   331→   331→            return;
+   332→   332→          }
+   333→   333→        }
+   334→   334→      }
+   335→   335→
+   336→   336→      /* -- Step 2: Submit sale -- */
+   337→   337→      const salePayload = {
+   338→   338→        customerId: customerId || undefined,
+   339→   339→        paymentMethod,
+   340→   340→        amountTendered: paymentMethod === 'cash' ? parseFloat(amountTendered || '0') : undefined,
+   341→   341→        discountAmount,
+   342→   342→        items: items.map((i) => ({
+   343→   343→          productId: i.productId,
+   344→   344→          quantity: i.quantity,
+   345→   345→          unitPrice: i.unitPrice,
+   346→   346→          costPrice: i.costPrice,
+   347→   347→          discount: i.discount,
+   348→   348→        })),
+   349→   349→      };
+   350→   350→
+   351→   351→      const saleRes = await fetch('/api/sales', {
+   352→   352→        method: 'POST',
+   353→   353→        headers: { 'Content-Type': 'application/json' },
+   354→   354→        body: JSON.stringify(salePayload),
+   355→   355→      });
+   356→   356→
+   357→   357→      if (!saleRes.ok) {
+   358→   358→        const errData = await saleRes.json().catch(() => ({}));
+   359→   359→
+   360→   360→        if (saleRes.status === 422 && errData.invalidItems) {
+   361→   361→          const invalids: InvalidItem[] = errData.invalidItems;
+   362→   362→          for (const inv of invalids) {
+   363→   363→            removeItem(inv.productId);
+   364→   364→            toast.error(`Removed: ${inv.productName || 'Item'}`, {
+   365→   365→              description: inv.reason || 'Validation failed',
+   366→   366→            });
+   367→   367→          }
+   368→   368→        } else {
+   369→   369→          toast.error(errData.error || 'Sale failed', {
+   370→   370→            description: 'Please try again',
+   371→   371→          });
+   372→   372→        }
+   373→   373→        setProcessing(false);
+   374→   374→        return;
+   375→   375→      }
+   376→   376→
+   377→   377→      /* -- Step 3: Success -- */
+   378→   378→      const saleResult: SaleResult = await saleRes.json();
+   379→   379→
+   380→   380→      setReceiptData(saleResult);
+   381→   381→      setShowReceipt(true);
+   382→   382→      clearCart();
+   383→   383→      setAmountTendered('');
+   384→   384→      setDiscountAmount(0);
+   385→   385→      setCustomer(null);
+   386→   386→      setPaymentMethod('cash');
+   387→   387→      fetchData();
+   388→   388→      toast.success('Sale completed successfully!');
+   389→   389→    } catch {
+   390→   390→      toast.error('Network error', { description: 'Please check your connection' });
+   391→   391→    } finally {
+   392→   392→      setProcessing(false);
+   393→   393→    }
+   394→   394→  }, [
+   395→   395→    items, processing, customerId, paymentMethod, amountTendered, discountAmount,
+   396→   396→    removeItem, clearCart, setDiscountAmount, setCustomer, fetchData,
+   397→   397→  ]);
+   398→   398→
+   399→   399→  /* ---- Barcode handler (search triggers add if exact barcode match) ---- */
+   400→   400→  const handleSearchKeyDown = useCallback(
+   401→   401→    (e: React.KeyboardEvent<HTMLInputElement>) => {
+   402→   402→      if (e.key === 'Enter' && searchQuery.trim()) {
+   403→   403→        const q = searchQuery.trim().toLowerCase();
+   404→   404→        const match = products.find(
+   405→   405→          (p) =>
+   406→   406→            (p.barcode && p.barcode.toLowerCase() === q) ||
+   407→   407→            p.sku.toLowerCase() === q,
+   408→   408→        );
+   409→   409→        if (match) {
+   410→   410→          handleAddToCart(match);
+   411→   411→          setSearchQuery('');
+   412→   412→        }
+   413→   413→      }
+   414→   414→    },
+   415→   415→    [searchQuery, products, handleAddToCart],
+   416→   416→  );
+   417→   417→
+   418→   418→  /* ================================================================
+   419→   419→     RENDER — Left Panel: Product Grid
+   420→   420→     ================================================================ */
+   421→   421→  const renderProductGrid = () => {
+   422→   422→    if (loading) {
+   423→   423→      return (
+   424→   424→        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-4">
+   425→   425→          {Array.from({ length: 12 }).map((_, i) => (
+   426→   426→            <div key={i} className="space-y-2">
+   427→   427→              <Skeleton className="h-24 w-full rounded-lg" />
+   428→   428→              <Skeleton className="h-4 w-3/4" />
+   429→   429→              <Skeleton className="h-4 w-1/2" />
+   430→   430→            </div>
+   431→   431→          ))}
+   432→   432→        </div>
+   433→   433→      );
+   434→   434→    }
+   435→   435→
+   436→   436→    return (
+   437→   437→      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-4">
+   438→   438→        {filteredProducts.length === 0 ? (
+   439→   439→          <div className="col-span-full flex flex-col items-center justify-center py-16 text-muted-foreground">
+   440→   440→            <Package className="size-12 mb-3 opacity-40" />
+   441→   441→            <p className="text-sm font-medium">No products found</p>
+   442→   442→            <p className="text-xs mt-1">Try adjusting your search or category filter</p>
+   443→   443→          </div>
+   444→   444→        ) : (
+   445→   445→          filteredProducts.map((product) => (
+   446→   446→            <button
+   447→   447→              key={product.id}
+   448→   448→              onClick={() => handleAddToCart(product)}
+   449→   449→              className={cn(
+   450→   450→                'relative flex flex-col items-start gap-1.5 rounded-lg border p-3 text-left transition-all hover:shadow-md hover:border-emerald-400 dark:hover:border-emerald-600 active:scale-[0.98] cursor-pointer bg-card',
+   451→   451→                product.currentStock <= 0 && 'opacity-50 cursor-not-allowed hover:shadow-none hover:border-border',
+   452→   452→              )}
+   453→   453→              disabled={product.currentStock <= 0}
+   454→   454→            >
+   455→   455→              {/* Stock badge */}
+   456→   456→              <Badge
+   457→   457→                className={cn(
+   458→   458→                  'absolute top-2 right-2 text-[10px] px-1.5 py-0',
+   459→   459→                  product.currentStock <= 0
+   460→   460→                    ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 border-red-200 dark:border-red-800'
+   461→   461→                    : product.currentStock <= (product.reorderLevel ?? 5)
+   462→   462→                      ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400 border-amber-200 dark:border-amber-800'
+   463→   463→                      : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
+   464→   464→                )}
+   465→   465→                variant="outline"
+   466→   466→              >
+   467→   467→                {product.currentStock <= 0 ? 'Out' : `${product.currentStock}`}
+   468→   468→              </Badge>
+   469→   469→
+   470→   470→              <p className="text-sm font-medium leading-tight pr-14 line-clamp-2">
+   471→   471→                {product.name}
+   472→   472→              </p>
+   473→   473→              {product.category && (
+   474→   474→                <p className="text-[11px] text-muted-foreground line-clamp-1">
+   475→   475→                  {product.category.name}
+   476→   476→                </p>
+   477→   477→              )}
+   478→   478→              <p className="text-base font-bold text-emerald-700 dark:text-emerald-400 mt-auto">
+   479→   479→                {formatCurrency(product.sellingPrice, currencySymbol)}
+   480→   480→              </p>
+   481→   481→            </button>
+   482→   482→          ))
+   483→   483→        )}
+   484→   484→      </div>
+   485→   485→    );
+   486→   486→  };
+   487→   487→
+   488→   488→  /* ================================================================
+   489→   489→     RENDER — Right Panel: Cart
+   490→   490→     ================================================================ */
+   491→   491→  const renderCartPanel = () => {
+   492→   492→    return (
+   493→   493→      <div className="flex flex-col h-full bg-card border-l">
+   494→   494→        {/* Cart header */}
+   495→   495→        <div className="flex items-center justify-between p-4 border-b">
+   496→   496→          <div className="flex items-center gap-2">
+   497→   497→            <ShoppingCart className="size-5 text-emerald-600 dark:text-emerald-400" />
+   498→   498→            <h2 className="font-semibold text-sm">Cart</h2>
+   499→   499→            {items.length > 0 && (
+   500→   500→              <Badge className="bg-emerald-600 text-white dark:bg-emerald-500 text-xs">
+   501→   501→                {items.reduce((s, i) => s + i.quantity, 0)}
+   502→   502→              </Badge>
+   503→   503→            )}
+   504→   504→          </div>
+   505→   505→          {items.length > 0 && (
+   506→   506→            <Button
+   507→   507→              variant="ghost"
+   508→   508→              size="sm"
+   509→   509→              onClick={() => {
+   510→   510→                clearCart();
+   511→   511→                setDiscountAmount(0);
+   512→   512→                setAmountTendered('');
+   513→   513→                toast.info('Cart cleared');
+   514→   514→              }}
+   515→   515→              className="text-muted-foreground hover:text-destructive text-xs h-7"
+   516→   516→            >
+   517→   517→              <Trash2 className="size-3.5 mr-1" />
+   518→   518→              Clear
+   519→   519→            </Button>
+   520→   520→          )}
+   521→   521→        </div>
+   522→   522→
+   523→   523→        {/* Customer select */}
+   524→   524→        <div className="px-4 pt-3 pb-1">
+   525→   525→          <Select
+   526→   526→            value={customerId ?? 'walk-in'}
+   527→   527→            onValueChange={(v) => setCustomer(v === 'walk-in' ? null : v)}
+   528→   528→          >
+   529→   529→            <SelectTrigger className="w-full text-xs h-9">
+   530→   530→              <SelectValue placeholder="Walk-in Customer" />
+   531→   531→            </SelectTrigger>
+   532→   532→            <SelectContent>
+   533→   533→              <SelectItem value="walk-in">Walk-in Customer</SelectItem>
+   534→   534→              {customers.map((c) => (
+   535→   535→                <SelectItem key={c.id} value={c.id}>
+   536→   536→                  <span>{c.name}</span>
+   537→   537→                  {c.phone && (
+   538→   538→                    <span className="text-muted-foreground ml-1.5 text-[11px]">
+   539→   539→                      {c.phone}
+   540→   540→                    </span>
+   541→   541→                  )}
+   542→   542→                </SelectItem>
+   543→   543→              ))}
+   544→   544→            </SelectContent>
+   545→   545→          </Select>
+   546→   546→        </div>
+   547→   547→
+   548→   548→        {/* Cart items */}
+   549→   549→        <ScrollArea className="flex-1 px-4">
+   550→   550→          {items.length === 0 ? (
+   551→   551→            <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+   552→   552→              <ShoppingCart className="size-10 mb-3 opacity-30" />
+   553→   553→              <p className="text-sm">Cart is empty</p>
+   554→   554→              <p className="text-xs mt-1">Click products to add</p>
+   555→   555→            </div>
+   556→   556→          ) : (
+   557→   557→            <div className="space-y-2 py-3">
+   558→   558→              {items.map((item) => {
+   559→   559→                const lineTotal =
+   560→   560→                  item.unitPrice * item.quantity * (1 - (item.discount || 0) / 100);
+   561→   561→                return (
+   562→   562→                  <div
+   563→   563→                    key={item.productId}
+   564→   564→                    className="rounded-lg border bg-background p-3 space-y-2"
+   565→   565→                  >
+   566→   566→                    {/* Item name + remove */}
+   567→   567→                    <div className="flex items-start justify-between gap-2">
+   568→   568→                      <div className="min-w-0">
+   569→   569→                        <p className="text-sm font-medium leading-tight truncate">
+   570→   570→                          {item.productName}
+   571→   571→                        </p>
+   572→   572→                        <p className="text-[11px] text-muted-foreground mt-0.5">
+   573→   573→                          {formatCurrency(item.unitPrice, currencySymbol)} each
+   574→   574→                        </p>
+   575→   575→                      </div>
+   576→   576→                      <Button
+   577→   577→                        variant="ghost"
+   578→   578→                        size="sm"
+   579→   579→                        onClick={() => removeItem(item.productId)}
+   580→   580→                        className="text-muted-foreground hover:text-destructive shrink-0 h-7 w-7 p-0"
+   581→   581→                      >
+   582→   582→                        <Trash2 className="size-3.5" />
+   583→   583→                      </Button>
+   584→   584→                    </div>
+   585→   585→
+   586→   586→                    {/* Qty controls + discount + subtotal */}
+   587→   587→                    <div className="flex items-center gap-2">
+   588→   588→                      {/* Quantity */}
+   589→   589→                      <div className="flex items-center border rounded-md">
+   590→   590→                        <Button
+   591→   591→                          variant="ghost"
+   592→   592→                          size="sm"
+   593→   593→                          className="h-7 w-7 p-0 rounded-r-none"
+   594→   594→                          onClick={() =>
+   595→   595→                            updateQuantity(item.productId, item.quantity - 1)
+   596→   596→                          }
+   597→   597→                        >
+   598→   598→                          <Minus className="size-3" />
+   599→   599→                        </Button>
+   600→   600→                        <span className="w-8 text-center text-xs font-medium tabular-nums">
+   601→   601→                          {item.quantity}
+   602→   602→                        </span>
+   603→   603→                        <Button
+   604→   604→                          variant="ghost"
+   605→   605→                          size="sm"
+   606→   606→                          className="h-7 w-7 p-0 rounded-l-none"
+   607→   607→                          onClick={() =>
+   608→   608→                            updateQuantity(item.productId, item.quantity + 1)
+   609→   609→                          }
+   610→   610→                        >
+   611→   611→                          <Plus className="size-3" />
+   612→   612→                        </Button>
+   613→   613→                      </div>
+   614→   614→
+   615→   615→                      {/* Discount % */}
+   616→   616→                      <div className="relative flex-1 max-w-[80px]">
+   617→   617→                        <Input
+   618→   618→                          type="number"
+   619→   619→                          min={0}
+   620→   620→                          max={item.maxDiscount}
+   621→   621→                          value={item.discount || 0}
+   622→   622→                          onChange={(e) =>
+   623→   623→                            updateDiscount(
+   624→   624→                              item.productId,
+   625→   625→                              parseFloat(e.target.value) || 0,
+   626→   626→                            )
+   627→   627→                          }
+   628→   628→                          className="h-7 text-xs pr-6 text-right tabular-nums"
+   629→   629→                          placeholder="0"
+   630→   630→                        />
+   631→   631→                        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground pointer-events-none">
+   632→   632→                          %
+   633→   633→                        </span>
+   634→   634→                      </div>
+   635→   635→
+   636→   636→                      {/* Line total */}
+   637→   637→                      <span className="text-sm font-semibold tabular-nums ml-auto whitespace-nowrap">
+   638→   638→                        {formatCurrency(lineTotal, currencySymbol)}
+   639→   639→                      </span>
+   640→   640→                    </div>
+   641→   641→
+   642→   642→                    {item.maxDiscount > 0 && (
+   643→   643→                      <p className="text-[10px] text-muted-foreground">
+   644→   644→                        Max discount: {item.maxDiscount}%
+   645→   645→                      </p>
+   646→   646→                    )}
+   647→   647→                  </div>
+   648→   648→                );
+   649→   649→              })}
+   650→   650→            </div>
+   651→   651→          )}
+   652→   652→        </ScrollArea>
+   653→   653→
+   654→   654→        {/* Cart footer: totals + payment */}
+   655→   655→        {items.length > 0 && (
+   656→   656→          <div className="border-t bg-background p-4 space-y-3">
+   657→   657→            {/* Discount amount */}
+   658→   658→            <div className="flex items-center gap-2">
+   659→   659→              <label className="text-xs text-muted-foreground whitespace-nowrap w-20">
+   660→   660→                Discount
+   661→   661→              </label>
+   662→   662→              <div className="relative flex-1">
+   663→   663→                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+   664→   664→                  {currencySymbol}
+   665→   665→                </span>
+   666→   666→                <Input
+   667→   667→                  type="number"
+   668→   668→                  min={0}
+   669→   669→                  step={0.01}
+   670→   670→                  value={discountAmount || ''}
+   671→   671→                  onChange={(e) =>
+   672→   672→                    setDiscountAmount(parseFloat(e.target.value) || 0)
+   673→   673→                  }
+   674→   674→                  placeholder="0.00"
+   675→   675→                  className="h-8 text-xs pl-7 tabular-nums"
+   676→   676→                />
+   677→   677→              </div>
+   678→   678→            </div>
+   679→   679→
+   680→   680→            <Separator />
+   681→   681→
+   682→   682→            {/* Totals */}
+   683→   683→            <div className="space-y-1.5 text-xs">
+   684→   684→              <div className="flex justify-between">
+   685→   685→                <span className="text-muted-foreground">Subtotal</span>
+   686→   686→                <span className="tabular-nums font-medium">
+   687→   687→                  {formatCurrency(subtotal, currencySymbol)}
+   688→   688→                </span>
+   689→   689→              </div>
+   690→   690→              {discountAmount > 0 && (
+   691→   691→                <div className="flex justify-between text-amber-600 dark:text-amber-400">
+   692→   692→                  <span>Discount</span>
+   693→   693→                  <span className="tabular-nums">
+   694→   694→                    -{formatCurrency(discountAmount, currencySymbol)}
+   695→   695→                  </span>
+   696→   696→                </div>
+   697→   697→              )}
+   698→   698→              <div className="flex justify-between">
+   699→   699→                <span className="text-muted-foreground">
+   700→   700→                  Tax ({taxRate}%)
+   701→   701→                </span>
+   702→   702→                <span className="tabular-nums font-medium">
+   703→   703→                  {formatCurrency(tax, currencySymbol)}
+   704→   704→                </span>
+   705→   705→              </div>
+   706→   706→              <Separator />
+   707→   707→              <div className="flex justify-between text-base font-bold">
+   708→   708→                <span>Total</span>
+   709→   709→                <span className="text-emerald-700 dark:text-emerald-400 tabular-nums">
+   710→   710→                  {formatCurrency(total, currencySymbol)}
+   711→   711→                </span>
+   712→   712→              </div>
+   713→   713→            </div>
+   714→   714→
+   715→   715→            <Separator />
+   716→   716→
+   717→   717→            {/* Payment method */}
+   718→   718→            <div className="space-y-2">
+   719→   719→              <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+   720→   720→                Payment Method
+   721→   721→              </p>
+   722→   722→              <div className="grid grid-cols-5 gap-1.5">
+   723→   723→                {PAYMENT_METHODS.map((pm) => {
+   724→   724→                  const Icon = pm.icon;
+   725→   725→                  const active = paymentMethod === pm.value;
+   726→   726→                  return (
+   727→   727→                    <Button
+   728→   728→                      key={pm.value}
+   729→   729→                      variant={active ? 'default' : 'outline'}
+   730→   730→                      size="sm"
+   731→   731→                      onClick={() => setPaymentMethod(pm.value)}
+   732→   732→                      className={cn(
+   733→   733→                        'h-auto flex-col gap-1 py-2 px-1 text-[10px] font-medium',
+   734→   734→                        active && 'bg-emerald-600 hover:bg-emerald-700 text-white',
+   735→   735→                      )}
+   736→   736→                    >
+   737→   737→                      <Icon className="size-4" />
+   738→   738→                      <span className="leading-tight text-center">
+   739→   739→                        {pm.label}
+   740→   740→                      </span>
+   741→   741→                    </Button>
+   742→   742→                  );
+   743→   743→                })}
+   744→   744→              </div>
+   745→   745→            </div>
+   746→   746→
+   747→   747→            {/* Amount tendered (cash only) */}
+   748→   748→            {paymentMethod === 'cash' && (
+   749→   749→              <div className="space-y-1.5">
+   750→   750→                <div className="flex items-center gap-2">
+   751→   751→                  <label className="text-xs text-muted-foreground whitespace-nowrap w-20">
+   752→   752→                    Tendered
+   753→   753→                  </label>
+   754→   754→                  <div className="relative flex-1">
+   755→   755→                    <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+   756→   756→                      {currencySymbol}
+   757→   757→                    </span>
+   758→   758→                    <Input
+   759→   759→                      type="number"
+   760→   760→                      min={0}
+   761→   761→                      step={0.01}
+   762→   762→                      value={amountTendered}
+   763→   763→                      onChange={(e) => setAmountTendered(e.target.value)}
+   764→   764→                      placeholder="0.00"
+   765→   765→                      className="h-8 text-xs pl-7 tabular-nums"
+   766→   766→                      autoFocus
+   767→   767→                    />
+   768→   768→                  </div>
+   769→   769→                </div>
+   770→   770→                {/* Quick tender buttons */}
+   771→   771→                <div className="flex gap-1.5 flex-wrap">
+   772→   772→                  {[total, ...getQuickTenderAmounts(total)].map((amt, idx) => (
+   773→   773→                    <Button
+   774→   774→                      key={idx}
+   775→   775→                      variant="outline"
+   776→   776→                      size="sm"
+   777→   777→                      className="h-7 text-[10px] px-2 tabular-nums"
+   778→   778→                      onClick={() => setAmountTendered(amt.toFixed(2))}
+   779→   779→                    >
+   780→   780→                      {formatCurrency(amt, currencySymbol)}
+   781→   781→                    </Button>
+   782→   782→                  ))}
+   783→   783→                </div>
+   784→   784→                {parseFloat(amountTendered || '0') >= total && (
+   785→   785→                  <div className="flex justify-between text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+   786→   786→                    <span>Change</span>
+   787→   787→                    <span className="tabular-nums">
+   788→   788→                      {formatCurrency(change, currencySymbol)}
+   789→   789→                    </span>
+   790→   790→                  </div>
+   791→   791→                )}
+   792→   792→              </div>
+   793→   793→            )}
+   794→   794→
+   795→   795→            {/* Process payment button */}
+   796→   796→            <Button
+   797→   797→              className={cn(
+   798→   798→                'w-full h-11 text-sm font-semibold transition-all',
+   799→   799→                canPay
+   800→   800→                  ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+   801→   801→                  : 'bg-muted text-muted-foreground cursor-not-allowed',
+   802→   802→              )}
+   803→   803→              disabled={!canPay || processing}
+   804→   804→              onClick={handleProcessPayment}
+   805→   805→            >
+   806→   806→              {processing ? (
+   807→   807→                <>
+   808→   808→                  <Loader2 className="size-4 mr-2 animate-spin" />
+   809→   809→                  Processing...
+   810→   810→                </>
+   811→   811→              ) : (
+   812→   812→                <>
+   813→   813→                  <Banknote className="size-4 mr-2" />
+   814→   814→                  Process Payment — {formatCurrency(total, currencySymbol)}
+   815→   815→                </>
+   816→   816→              )}
+   817→   817→            </Button>
+   818→   818→          </div>
+   819→   819→        )}
+   820→   820→      </div>
+   821→   821→    );
+   822→   822→  };
+   823→   823→
+   824→   824→  /* ================================================================
+   825→   825→     RENDER — Receipt Dialog
+   826→   826→     ================================================================ */
+   827→   827→  const renderReceiptDialog = () => {
+   828→   828→    if (!receiptData?.sale) return null;
+   829→   829→    const sale = receiptData.sale;
+   830→   830→
+   831→   831→    return (
+   832→   832→      <Dialog open={showReceipt} onOpenChange={setShowReceipt}>
+   833→   833→        <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+   834→   834→          <DialogHeader>
+   835→   835→            <DialogTitle className="text-center">Receipt</DialogTitle>
+   836→   836→          </DialogHeader>
+   837→   837→
+   838→   838→          {/* Receipt content */}
+   839→   839→          <div className="bg-white dark:bg-zinc-900 text-black dark:text-zinc-100 rounded-lg border p-6 font-mono text-xs space-y-4">
+   840→   840→            {/* Store header */}
+   841→   841→            <div className="text-center space-y-1">
+   842→   842→              <h3 className="text-base font-bold">{storeName}</h3>
+   843→   843→              {address && <p className="text-[10px] text-gray-500 dark:text-zinc-400">{address}</p>}
+   844→   844→              {phone && <p className="text-[10px] text-gray-500 dark:text-zinc-400">Tel: {phone}</p>}
+   845→   845→            </div>
+   846→   846→
+   847→   847→            <Separator />
+   848→   848→
+   849→   849→            {/* Invoice info */}
+   850→   850→            <div className="flex justify-between text-[10px]">
+   851→   851→              <span>Invoice: <strong>{sale.invoiceNo}</strong></span>
+   852→   852→              <span>{new Date(sale.createdAt).toLocaleString()}</span>
+   853→   853→            </div>
+   854→   854→
+   855→   855→            {selectedCustomer && (
+   856→   856→              <div className="text-[10px]">
+   857→   857→                Customer: <strong>{selectedCustomer.name}</strong>
+   858→   858→                {selectedCustomer.phone && ` — ${selectedCustomer.phone}`}
+   859→   859→              </div>
+   860→   860→            )}
+   861→   861→
+   862→   862→            <Separator />
+   863→   863→
+   864→   864→            {/* Items table */}
+   865→   865→            <div className="space-y-1">
+   866→   866→              <div className="flex justify-between text-[10px] font-semibold border-b pb-1">
+   867→   867→                <span className="flex-1">Item</span>
+   868→   868→                <span className="w-10 text-center">Qty</span>
+   869→   869→                <span className="w-16 text-right">Price</span>
+   870→   870→                <span className="w-16 text-right">Total</span>
+   871→   871→              </div>
+   872→   872→
+   873→   873→              {/* We use a snapshot of the items that were in the cart at time of sale.
+   874→   874→                  Since the cart is cleared after success, we reconstruct from receiptData if available,
+   875→   875→                  otherwise we show a placeholder. The API response typically echoes back the items. */}
+   876→   876→              {(receiptData as Record<string, unknown>).saleItems
+   877→   877→                ? ((receiptData as Record<string, unknown>).saleItems as Array<{
+   878→   878→                    productName: string;
+   879→   879→                    quantity: number;
+   880→   880→                    unitPrice: number;
+   881→   881→                    discount: number;
+   882→   882→                  }>).map((si, idx) => {
+   883→   883→                  const lineTotal = si.unitPrice * si.quantity * (1 - (si.discount || 0) / 100);
+   884→   884→                  return (
+   885→   885→                    <div key={idx} className="flex justify-between text-[10px] py-0.5">
+   886→   886→                      <span className="flex-1 truncate mr-2">{si.productName}</span>
+   887→   887→                      <span className="w-10 text-center tabular-nums">{si.quantity}</span>
+   888→   888→                      <span className="w-16 text-right tabular-nums">
+   889→   889→                        {formatCurrency(si.unitPrice, currencySymbol)}
+   890→   890→                      </span>
+   891→   891→                      <span className="w-16 text-right tabular-nums">
+   892→   892→                        {formatCurrency(lineTotal, currencySymbol)}
+   893→   893→                      </span>
+   894→   894→                    </div>
+   895→   895→                  );
+   896→   896→                })
+   897→   897→                : /* Fallback if saleItems not in response */
+   898→   898→                  <div className="text-center text-[10px] text-muted-foreground py-4">
+   899→   899→                    Items data not available in response
+   900→   900→                  </div>}
+   901→   901→            </div>
+   902→   902→
+   903→   903→            <Separator />
+   904→   904→
+   905→   905→            {/* Totals */}
+   906→   906→            <div className="space-y-1 text-[11px]">
+   907→   907→              <div className="flex justify-between">
+   908→   908→                <span>Subtotal</span>
+   909→   909→                <span className="tabular-nums">
+   910→   910→                  {formatCurrency(subtotal, currencySymbol)}
+   911→   911→                </span>
+   912→   912→              </div>
+   913→   913→              {discountAmount > 0 && (
+   914→   914→                <div className="flex justify-between">
+   915→   915→                  <span>Discount</span>
+   916→   916→                  <span className="tabular-nums">
+   917→   917→                    -{formatCurrency(discountAmount, currencySymbol)}
+   918→   918→                  </span>
+   919→   919→                </div>
+   920→   920→              )}
+   921→   921→              {taxRate > 0 && (
+   922→   922→                <div className="flex justify-between">
+   923→   923→                  <span>Tax ({taxRate}%)</span>
+   924→   924→                  <span className="tabular-nums">
+   925→   925→                    {formatCurrency(tax, currencySymbol)}
+   926→   926→                  </span>
+   927→   927→                </div>
+   928→   928→              )}
+   929→   929→              <Separator />
+   930→   930→              <div className="flex justify-between text-sm font-bold">
+   931→   931→                <span>TOTAL</span>
+   932→   932→                <span className="tabular-nums">
+   933→   933→                  {formatCurrency(total, currencySymbol)}
+   934→   934→                </span>
+   935→   935→              </div>
+   936→   936→            </div>
+   937→   937→
+   938→   938→            <Separator />
+   939→   939→
+   940→   940→            {/* Payment info */}
+   941→   941→            <div className="space-y-1 text-[11px]">
+   942→   942→              <div className="flex justify-between">
+   943→   943→                <span>Payment</span>
+   944→   944→                <span className="capitalize font-medium">{paymentMethod.replace('_', ' ')}</span>
+   945→   945→              </div>
+   946→   946→              {paymentMethod === 'cash' && parseFloat(amountTendered || '0') > 0 && (
+   947→   947→                <>
+   948→   948→                  <div className="flex justify-between">
+   949→   949→                    <span>Tendered</span>
+   950→   950→                    <span className="tabular-nums">
+   951→   951→                      {formatCurrency(parseFloat(amountTendered || '0'), currencySymbol)}
+   952→   952→                    </span>
+   953→   953→                  </div>
+   954→   954→                  <div className="flex justify-between font-semibold text-emerald-700 dark:text-emerald-400">
+   955→   955→                    <span>Change</span>
+   956→   956→                    <span className="tabular-nums">
+   957→   957→                      {formatCurrency(change, currencySymbol)}
+   958→   958→                    </span>
+   959→   959→                  </div>
+   960→   960→                </>
+   961→   961→              )}
+   962→   962→            </div>
+   963→   963→
+   964→   964→            {receiptFooter && (
+   965→   965→              <>
+   966→   966→                <Separator />
+   967→   967→                <p className="text-center text-[10px] text-gray-500 dark:text-zinc-400 italic">
+   968→   968→                  {receiptFooter}
+   969→   969→                </p>
+   970→   970→              </>
+   971→   971→            )}
+   972→   972→          </div>
+   973→   973→
+   974→   974→          <DialogFooter className="sm:justify-center gap-2">
+   975→   975→            <Button
+   976→   976→              variant="outline"
+   977→   977→              onClick={() => {
+   978→   978→                setShowReceipt(false);
+   979→   979→                setReceiptData(null);
+   980→   980→              }}
+   981→   981→            >
+   982→   982→              Close
+   983→   983→            </Button>
+   984→   984→            <Button
+   985→   985→              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+   986→   986→              onClick={() => {
+   987→   987→                window.print();
+   988→   988→              }}
+   989→   989→            >
+   990→   990→              <Receipt className="size-4 mr-2" />
+   991→   991→              Print Receipt
+   992→   992→            </Button>
+   993→   993→          </DialogFooter>
+   994→   994→        </DialogContent>
+   995→   995→      </Dialog>
+   996→   996→    );
+   997→   997→  };
+   998→   998→
+   999→   999→  /* ================================================================
+  1000→  1000→     MAIN RENDER
+  1001→  1001→     ================================================================ */
+  1002→  1002→  return (
+  1003→  1003→    <div className="flex h-full w-full overflow-hidden">
+  1004→  1004→      {/* ---- Left Panel: Products ---- */}
+  1005→  1005→      <div className="flex-1 flex flex-col min-w-0">
+  1006→  1006→        {/* Category tabs + Search bar */}
+  1007→  1007→        <div className="border-b bg-card px-4 pt-3 pb-2 space-y-3">
+  1008→  1008→          {/* Category tabs */}
+  1009→  1009→          <ScrollArea className="w-full" orientation="horizontal">
+  1010→  1010→            <div className="flex gap-1.5 pb-1">
+  1011→  1011→              <Button
+  1012→  1012→                variant={activeCategoryId === 'all' ? 'default' : 'outline'}
+  1013→  1013→                size="sm"
+  1014→  1014→                onClick={() => setActiveCategoryId('all')}
+  1015→  1015→                className={cn(
+  1016→  1016→                  'h-7 text-xs shrink-0',
+  1017→  1017→                  activeCategoryId === 'all' &&
+  1018→  1018→                    'bg-emerald-600 hover:bg-emerald-700 text-white',
+  1019→  1019→                )}
+  1020→  1020→              >
+  1021→  1021→                All Products
+  1022→  1022→              </Button>
+  1023→  1023→              {categories.map((cat) => (
+  1024→  1024→                <Button
+  1025→  1025→                  key={cat.id}
+  1026→  1026→                  variant={activeCategoryId === cat.id ? 'default' : 'outline'}
+  1027→  1027→                  size="sm"
+  1028→  1028→                  onClick={() => setActiveCategoryId(cat.id)}
+  1029→  1029→                  className={cn(
+  1030→  1030→                    'h-7 text-xs shrink-0',
+  1031→  1031→                    activeCategoryId === cat.id &&
+  1032→  1032→                      'bg-emerald-600 hover:bg-emerald-700 text-white',
+  1033→  1033→                  )}
+  1034→  1034→                >
+  1035→  1035→                  {cat.name}
+  1036→  1036→                  {cat._count?.products != null && (
+  1037→  1037→                    <Badge
+  1038→  1038→                      variant="secondary"
+  1039→  1039→                      className="ml-1.5 h-4 px-1 text-[10px]"
+  1040→  1040→                    >
+  1041→  1041→                      {cat._count.products}
+  1042→  1042→                    </Badge>
+  1043→  1043→                  )}
+  1044→  1044→                </Button>
+  1045→  1045→              ))}
+  1046→  1046→            </div>
+  1047→  1047→          </ScrollArea>
+  1048→  1048→
+  1049→  1049→          {/* Search bar */}
+  1050→  1050→          <div className="relative">
+  1051→  1051→            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+  1052→  1052→            <Input
+  1053→  1053→              ref={searchRef}
+  1054→  1054→              type="text"
+  1055→  1055→              value={searchQuery}
+  1056→  1056→              onChange={(e) => setSearchQuery(e.target.value)}
+  1057→  1057→              onKeyDown={handleSearchKeyDown}
+  1058→  1058→              placeholder="Search products or scan barcode (F2)..."
+  1059→  1059→              className="h-9 pl-9 pr-9 text-sm"
+  1060→  1060→            />
+  1061→  1061→            {searchQuery && (
+  1062→  1062→              <button
+  1063→  1063→                onClick={() => {
+  1064→  1064→                  setSearchQuery('');
+  1065→  1065→                  searchRef.current?.focus();
+  1066→  1066→                }}
+  1067→  1067→                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+  1068→  1068→              >
+  1069→  1069→                <X className="size-3.5" />
+  1070→  1070→              </button>
+  1071→  1071→            )}
+  1072→  1072→            <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-70">
+  1073→  1073→              <Barcode className="size-3" />
+  1074→  1074→              F2
+  1075→  1075→            </kbd>
+  1076→  1076→          </div>
+  1077→  1077→        </div>
+  1078→  1078→
+  1079→  1079→        {/* Product grid */}
+  1080→  1080→        <div className="flex-1 overflow-y-auto">
+  1081→  1081→          {renderProductGrid()}
+  1082→  1082→        </div>
+  1083→  1083→      </div>
+  1084→  1084→
+  1085→  1085→      {/* ---- Mobile cart toggle ---- */}
+  1086→  1086→      <Button
+  1087→  1087→        className="fixed bottom-4 right-4 z-30 lg:hidden h-12 w-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg"
+  1088→  1088→        size="icon"
+  1089→  1089→        onClick={() => setCartOpen(!cartOpen)}
+  1090→  1090→      >
+  1091→  1091→        {cartOpen ? (
+  1092→  1092→          <ChevronRight className="size-5" />
+  1093→  1093→        ) : (
+  1094→  1094→          <ShoppingCart className="size-5" />
+  1095→  1095→        )}
+  1096→  1096→        {items.length > 0 && !cartOpen && (
+  1097→  1097→          <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500 text-white text-[10px] border-2 border-background">
+  1098→  1098→            {items.reduce((s, i) => s + i.quantity, 0)}
+  1099→  1099→          </Badge>
+  1100→  1100→        )}
+  1101→  1101→      </Button>
+  1102→  1102→
+  1103→  1103→      {/* ---- Mobile cart overlay ---- */}
+  1104→  1104→      {cartOpen && (
+  1105→  1105→        <div
+  1106→  1106→          className="fixed inset-0 z-20 bg-black/40 lg:hidden"
+  1107→  1107→          onClick={() => setCartOpen(false)}
+  1108→  1108→        />
+  1109→  1109→      )}
+  1110→  1110→
+  1111→  1111→      {/* ---- Right Panel: Cart ---- */}
+  1112→  1112→      <div
+  1113→  1113→        className={cn(
+  1114→  1114→          'fixed inset-y-0 right-0 z-20 w-full max-w-md bg-card shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 lg:max-w-[420px] lg:w-[420px] lg:shadow-none',
+  1115→  1115→          cartOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0',
+  1116→  1116→        )}
+  1117→  1117→      >
+  1118→  1118→        {/* Mobile close button */}
+  1119→  1119→        <div className="lg:hidden flex items-center justify-end p-2 border-b">
+  1120→  1120→          <Button
+  1121→  1121→            variant="ghost"
+  1122→  1122→            size="sm"
+  1123→  1123→            onClick={() => setCartOpen(false)}
+  1124→  1124→            className="h-8 w-8 p-0"
+  1125→  1125→          >
+  1126→  1126→            <X className="size-4" />
+  1127→  1127→          </Button>
+  1128→  1128→        </div>
+  1129→  1129→
+  1130→  1130→        {renderCartPanel()}
+  1131→  1131→      </div>
+  1132→  1132→
+  1133→  1133→      {/* ---- Receipt Dialog ---- */}
+  1134→  1134→      {renderReceiptDialog()}
+  1135→  1135→    </div>
+  1136→  1136→  );
+  1137→  1137→}
+  1138→  1138→
+  1139→  1139→/* ------------------------------------------------------------------
+  1140→  1140→   Utility: Quick tender amounts (rounded-up bills)
+  1141→  1141→   ------------------------------------------------------------------ */
+  1142→  1142→function getQuickTenderAmounts(total: number): number[] {
+  1143→  1143→  if (total <= 0) return [];
+  1144→  1144→  const amounts: number[] = [];
+  1145→  1145→  const rounded = Math.ceil(total);
+  1146→  1146→  const denominations = [5, 10, 20, 50, 100, 200, 500];
+  1147→  1147→  for (const d of denominations) {
+  1148→  1148→    const amt = Math.ceil(total / d) * d;
+  1149→  1149→    if (amt > total && !amounts.includes(amt)) {
+  1150→  1150→      amounts.push(amt);
+  1151→  1151→    }
+  1152→  1152→    if (amounts.length >= 3) break;
+  1153→  1153→  }
+  1154→  1154→  // Add the exact total rounded up
+  1155→  1155→  if (!amounts.includes(rounded) && rounded > total) {
+  1156→  1156→    amounts.unshift(rounded);
+  1157→  1157→  }
+  1158→  1158→  return amounts.slice(0, 4);
+  1159→  1159→}
+  1160→  1160→

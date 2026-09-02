@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/settings - Get settings or create default
 export async function GET() {
@@ -14,8 +15,7 @@ export async function GET() {
 
     return NextResponse.json({ data: settings });
   } catch (error) {
-    console.error('Error fetching settings:', error);
-    return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -63,7 +63,6 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ data: settings });
   } catch (error) {
-    console.error('Error updating settings:', error);
-    return NextResponse.json({ error: 'Failed to update settings' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

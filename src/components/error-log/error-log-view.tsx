@@ -10,10 +10,12 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Bug, CheckCircle, Trash2 } from 'lucide-react';
+import { Bug, CheckCircle, Trash2, AlertTriangle, Info } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { errorHandler } from '@/lib/mbumah-error-handler';
 
 interface ErrorLog {
-  id: string; level: string; message: string; component?: string; timestamp: string; resolved: boolean;
+  id: string; level: string; message: string; component?: string; timestamp: string; resolved: boolean; code?: string; action?: string; url?: string;
 }
 
 function Pagination({ page, totalPages, onChange }: { page: number; totalPages: number; onChange: (p: number) => void }) {
@@ -143,14 +145,15 @@ export function ErrorLogView() {
                 <TableHeader><TableRow>
                   <TableHead className="w-10">✓</TableHead>
                   <TableHead>Level</TableHead>
+                  <TableHead>Code</TableHead>
                   <TableHead>Message</TableHead>
-                  <TableHead className="hidden md:table-cell">Component</TableHead>
+                  <TableHead className="hidden lg:table-cell">Component</TableHead>
                   <TableHead className="hidden sm:table-cell">Time</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow></TableHeader>
                 <TableBody>
                   {errors.map((e) => (
-                    <TableRow key={e.id} className={e.resolved ? 'opacity-50' : ''}>
+                    <TableRow key={e.id} className={cn(e.resolved && 'opacity-50', !e.resolved && e.level === 'error' && 'bg-red-50/50 dark:bg-red-950/20')}>
                       <TableCell>
                         <input
                           type="checkbox"
@@ -161,8 +164,15 @@ export function ErrorLogView() {
                         />
                       </TableCell>
                       <TableCell><LevelBadge level={e.level} /></TableCell>
+                      <TableCell>
+                        {e.code ? (
+                          <Badge variant="outline" className="text-[10px] font-mono px-1.5 py-0">{e.code}</Badge>
+                        ) : (
+                          <span className="text-muted-foreground text-xs">—</span>
+                        )}
+                      </TableCell>
                       <TableCell className="font-mono text-xs max-w-[300px] truncate" title={e.message}>{e.message}</TableCell>
-                      <TableCell className="hidden md:table-cell text-muted-foreground text-xs">{e.component || '—'}</TableCell>
+                      <TableCell className="hidden lg:table-cell text-muted-foreground text-xs">{e.component || e.action || '—'}</TableCell>
                       <TableCell className="hidden sm:table-cell text-muted-foreground text-xs whitespace-nowrap">{new Date(e.timestamp).toLocaleString()}</TableCell>
                       <TableCell>
                         {e.resolved ? (

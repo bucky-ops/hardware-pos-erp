@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/dashboard - Aggregate stats using Promise.all for parallel queries
 export async function GET() {
@@ -68,7 +69,6 @@ export async function GET() {
       topProducts: enrichedTopProducts,
     });
   } catch (error) {
-    console.error('Error fetching dashboard stats:', error);
-    return NextResponse.json({ error: 'Failed to fetch dashboard stats' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

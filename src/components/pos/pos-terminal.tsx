@@ -43,6 +43,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { CartItem } from '@/lib/types';
+import { errorHandler } from '@/lib/mbumah-error-handler';
 
 /* ------------------------------------------------------------------
    Types
@@ -292,7 +293,14 @@ export function POSTerminal() {
 
       if (validateRes.ok) {
         const vData = await validateRes.json();
-        const validProducts: Product[] = vData.products ?? vData;
+        // API returns { data: [...] } — handle both old and new response shapes
+        const validProducts: Product[] = Array.isArray(vData.data)
+          ? vData.data
+          : Array.isArray(vData.products)
+            ? vData.products
+            : Array.isArray(vData)
+              ? vData
+              : [];
         const validIds = new Set(validProducts.map((p: Product) => p.id));
 
         const invalidItems = items.filter((i) => !validIds.has(i.productId));
@@ -337,8 +345,9 @@ export function POSTerminal() {
       const salePayload = {
         customerId: customerId || undefined,
         paymentMethod,
-        amountTendered: paymentMethod === 'cash' ? parseFloat(amountTendered || '0') : undefined,
+        amountPaid: paymentMethod === 'cash' ? parseFloat(amountTendered || '0') : 0,
         discountAmount,
+        taxAmount: tax,
         items: items.map((i) => ({
           productId: i.productId,
           quantity: i.quantity,
@@ -357,6 +366,7 @@ export function POSTerminal() {
       if (!saleRes.ok) {
         const errData = await saleRes.json().catch(() => ({}));
 
+        // Handle structured 422 invalid items response (server-side validation)
         if (saleRes.status === 422 && errData.invalidItems) {
           const invalids: InvalidItem[] = errData.invalidItems;
           for (const inv of invalids) {
@@ -366,9 +376,9 @@ export function POSTerminal() {
             });
           }
         } else {
-          toast.error(errData.error || 'Sale failed', {
-            description: 'Please try again',
-          });
+          // Use MbumahErrorHandler for structured error messages
+          const structured = await errorHandler.handleApiError(saleRes);
+          errorHandler.showToast(structured);
         }
         setProcessing(false);
         return;

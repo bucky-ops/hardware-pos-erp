@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/products - List products with search, category, isActive, lowStock, ids filters, pagination
 export async function GET(request: NextRequest) {
@@ -78,8 +79,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching products:', error);
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -105,13 +105,13 @@ export async function POST(request: NextRequest) {
     } = body;
 
     if (!name || !sku) {
-      return NextResponse.json({ error: 'Name and SKU are required' }, { status: 400 });
+      throw new ApiError('Name and SKU are required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check for unique SKU
     const existingProduct = await db.product.findUnique({ where: { sku } });
     if (existingProduct) {
-      return NextResponse.json({ error: 'A product with this SKU already exists' }, { status: 409 });
+      throw new ApiError('A product with this SKU already exists', ErrorCode.CONFLICT);
     }
 
     const product = await db.product.create({
@@ -136,7 +136,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
-    console.error('Error creating product:', error);
-    return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

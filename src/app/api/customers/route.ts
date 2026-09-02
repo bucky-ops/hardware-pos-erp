@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/customers - List customers with search and pagination
 export async function GET(request: NextRequest) {
@@ -43,8 +44,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching customers:', error);
-    return NextResponse.json({ error: 'Failed to fetch customers' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -55,14 +55,14 @@ export async function POST(request: NextRequest) {
     const { name, email, phone, address } = body;
 
     if (!name) {
-      return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+      throw new ApiError('Name is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check unique email
     if (email) {
       const existing = await db.customer.findUnique({ where: { email } });
       if (existing) {
-        return NextResponse.json({ error: 'A customer with this email already exists' }, { status: 409 });
+        throw new ApiError('A customer with this email already exists', ErrorCode.CONFLICT);
       }
     }
 
@@ -77,8 +77,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(customer, { status: 201 });
   } catch (error) {
-    console.error('Error creating customer:', error);
-    return NextResponse.json({ error: 'Failed to create customer' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -89,7 +88,7 @@ export async function PATCH(request: NextRequest) {
     const { id, name, email, phone, address, isActive } = body;
 
     if (!id) {
-      return NextResponse.json({ error: 'Customer ID is required' }, { status: 400 });
+      throw new ApiError('Customer ID is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check unique email if being updated
@@ -98,7 +97,7 @@ export async function PATCH(request: NextRequest) {
         where: { email, NOT: { id } },
       });
       if (existing) {
-        return NextResponse.json({ error: 'A customer with this email already exists' }, { status: 409 });
+        throw new ApiError('A customer with this email already exists', ErrorCode.CONFLICT);
       }
     }
 
@@ -115,8 +114,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json(customer);
   } catch (error) {
-    console.error('Error updating customer:', error);
-    return NextResponse.json({ error: 'Failed to update customer' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -127,23 +125,19 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json({ error: 'Customer ID is required' }, { status: 400 });
+      throw new ApiError('Customer ID is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check if customer has sales
     const saleCount = await db.sale.count({ where: { customerId: id } });
     if (saleCount > 0) {
-      return NextResponse.json(
-        { error: 'Cannot delete customer with existing sales' },
-        { status: 409 }
-      );
+      throw new ApiError('Cannot delete customer with existing sales', ErrorCode.CONFLICT);
     }
 
     await db.customer.delete({ where: { id } });
 
     return NextResponse.json({ message: 'Customer deleted successfully' });
   } catch (error) {
-    console.error('Error deleting customer:', error);
-    return NextResponse.json({ error: 'Failed to delete customer' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

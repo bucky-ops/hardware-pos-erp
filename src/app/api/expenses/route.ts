@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/expenses - List expenses
 export async function GET(request: NextRequest) {
@@ -50,8 +51,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching expenses:', error);
-    return NextResponse.json({ error: 'Failed to fetch expenses' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -62,10 +62,7 @@ export async function POST(request: NextRequest) {
     const { category, amount, description, date } = body;
 
     if (!category || amount === undefined) {
-      return NextResponse.json(
-        { error: 'Category and amount are required' },
-        { status: 400 }
-      );
+      throw new ApiError('Category and amount are required', ErrorCode.VALIDATION_ERROR);
     }
 
     const expense = await db.expense.create({
@@ -79,8 +76,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(expense, { status: 201 });
   } catch (error) {
-    console.error('Error creating expense:', error);
-    return NextResponse.json({ error: 'Failed to create expense' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -91,19 +87,18 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json({ error: 'Expense ID is required' }, { status: 400 });
+      throw new ApiError('Expense ID is required', ErrorCode.VALIDATION_ERROR);
     }
 
     const expense = await db.expense.findUnique({ where: { id } });
     if (!expense) {
-      return NextResponse.json({ error: 'Expense not found' }, { status: 404 });
+      throw new ApiError('Expense not found', ErrorCode.NOT_FOUND);
     }
 
     await db.expense.delete({ where: { id } });
 
     return NextResponse.json({ message: 'Expense deleted successfully' });
   } catch (error) {
-    console.error('Error deleting expense:', error);
-    return NextResponse.json({ error: 'Failed to delete expense' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

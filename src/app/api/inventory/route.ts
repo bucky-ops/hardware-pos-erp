@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { Prisma } from '@prisma/client';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/inventory - List adjustments + lowStock type using per-product reorderLevel
 export async function GET(request: NextRequest) {
@@ -82,8 +83,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching inventory data:', error);
-    return NextResponse.json({ error: 'Failed to fetch inventory data' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -94,22 +94,16 @@ export async function POST(request: NextRequest) {
     const { productId, type, quantity, reason, reference } = body;
 
     if (!productId || !type || quantity === undefined) {
-      return NextResponse.json(
-        { error: 'productId, type, and quantity are required' },
-        { status: 400 }
-      );
+      throw new ApiError('productId, type, and quantity are required', ErrorCode.VALIDATION_ERROR);
     }
 
     if (!['addition', 'deduction', 'set'].includes(type)) {
-      return NextResponse.json(
-        { error: 'Type must be one of: addition, deduction, set' },
-        { status: 400 }
-      );
+      throw new ApiError('Type must be one of: addition, deduction, set', ErrorCode.VALIDATION_ERROR);
     }
 
     const product = await db.product.findUnique({ where: { id: productId } });
     if (!product) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+      throw new ApiError('Product not found', ErrorCode.NOT_FOUND);
     }
 
     const previousQty = product.currentStock;
@@ -149,7 +143,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(adjustment, { status: 201 });
   } catch (error) {
-    console.error('Error creating stock adjustment:', error);
-    return NextResponse.json({ error: 'Failed to create stock adjustment' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

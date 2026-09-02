@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/purchases - List purchases
 export async function GET(request: NextRequest) {
@@ -50,8 +51,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching purchases:', error);
-    return NextResponse.json({ error: 'Failed to fetch purchases' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -68,14 +68,14 @@ export async function POST(request: NextRequest) {
     } = body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json({ error: 'Purchase items are required' }, { status: 400 });
+      throw new ApiError('Purchase items are required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Validate supplier exists if provided
     if (supplierId) {
       const supplier = await db.supplier.findUnique({ where: { id: supplierId } });
       if (!supplier) {
-        return NextResponse.json({ error: 'Supplier not found' }, { status: 404 });
+        throw new ApiError('Supplier not found', ErrorCode.NOT_FOUND);
       }
     }
 
@@ -96,10 +96,7 @@ export async function POST(request: NextRequest) {
     for (const item of items) {
       const product = await db.product.findUnique({ where: { id: item.productId } });
       if (!product) {
-        return NextResponse.json(
-          { error: `Product not found: ${item.productId}` },
-          { status: 404 }
-        );
+        throw new ApiError(`Product not found: ${item.productId}`, ErrorCode.NOT_FOUND);
       }
 
       const itemTotal = item.quantity * item.unitCost;
@@ -138,7 +135,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(purchase, { status: 201 });
   } catch (error) {
-    console.error('Error creating purchase:', error);
-    return NextResponse.json({ error: 'Failed to create purchase' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

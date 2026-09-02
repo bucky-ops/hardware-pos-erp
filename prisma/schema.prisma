@@ -205,14 +205,16 @@ model StoreSettings {
 }
 
 model ErrorLog {
-  id        String   @id @default(cuid())
-  level     String   @default("error")
-  message   String
-  stack     String?
+  id         String   @id @default(cuid())
+  level      String   @default("error")
+  code       String?
+  statusCode Int?
+  message    String
+  stack      String?
   component  String?
-  action    String?
-  url       String?
-  userAgent String?
-  timestamp DateTime @default(now())
-  resolved  Boolean  @default(false)
+  action     String?
+  url        String?
+  userAgent  String?
+  timestamp  DateTime @default(now())
+  resolved   Boolean  @default(false)
 }

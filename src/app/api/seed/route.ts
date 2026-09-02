@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // POST /api/seed - Seed demo data (protected in production)
 export async function POST() {
   if (process.env.NODE_ENV === 'production') {
     return NextResponse.json(
-      { error: 'Seeding is not allowed in production' },
-      { status: 403 }
+      new ApiError('Seeding is not allowed in production', ErrorCode.FORBIDDEN),
+      { status: 403 },
     );
   }
 
@@ -448,7 +449,6 @@ export async function POST() {
       },
     });
   } catch (error) {
-    console.error('Error seeding data:', error);
-    return NextResponse.json({ error: 'Failed to seed data' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/sales/[id] - Get a single sale
 export async function GET(
@@ -21,13 +22,34 @@ export async function GET(
     });
 
     if (!sale) {
-      return NextResponse.json({ error: 'Sale not found' }, { status: 404 });
+      throw new ApiError('Sale not found', ErrorCode.NOT_FOUND);
     }
 
-    return NextResponse.json({ data: sale });
+    // Serialize Decimal fields to number
+    const serializedSale = {
+      ...sale,
+      subtotal: Number(sale.subtotal),
+      totalAmount: Number(sale.totalAmount),
+      amountPaid: Number(sale.amountPaid),
+      changeAmount: Number(sale.changeAmount),
+      discountAmount: Number(sale.discountAmount),
+      taxAmount: Number(sale.taxAmount),
+      items: sale.items.map((item) => ({
+        ...item,
+        unitPrice: Number(item.unitPrice),
+        costPrice: Number(item.costPrice),
+        total: Number(item.total),
+        discount: Number(item.discount),
+      })),
+      payments: sale.payments.map((payment) => ({
+        ...payment,
+        amount: Number(payment.amount),
+      })),
+    };
+
+    return NextResponse.json({ data: serializedSale });
   } catch (error) {
-    console.error('Error fetching sale:', error);
-    return NextResponse.json({ error: 'Failed to fetch sale' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -42,11 +64,11 @@ export async function PATCH(
     const { action, voidReason } = body;
 
     if (action !== 'void') {
-      return NextResponse.json({ error: 'Only void action is supported' }, { status: 400 });
+      throw new ApiError('Only void action is supported', ErrorCode.VALIDATION_ERROR);
     }
 
     if (!voidReason) {
-      return NextResponse.json({ error: 'Void reason is required' }, { status: 400 });
+      throw new ApiError('Void reason is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check sale exists and is not already voided
@@ -60,11 +82,11 @@ export async function PATCH(
     });
 
     if (!existingSale) {
-      return NextResponse.json({ error: 'Sale not found' }, { status: 404 });
+      throw new ApiError('Sale not found', ErrorCode.NOT_FOUND);
     }
 
     if (existingSale.status === 'voided') {
-      return NextResponse.json({ error: 'Sale is already voided' }, { status: 400 });
+      throw new ApiError('Sale is already voided', ErrorCode.SALE_VOIDED);
     }
 
     // === VOID INSIDE TRANSACTION ===
@@ -83,7 +105,7 @@ export async function PATCH(
       if (existingSale.customerId && existingSale.customer) {
         const settings = await tx.storeSettings.findFirst();
         if (settings?.enableLoyalty) {
-          const points = Math.floor(existingSale.totalAmount * (settings.loyaltyRate / 100));
+          const points = Math.floor(Number(existingSale.totalAmount) * (settings.loyaltyRate / 100));
           await tx.customer.update({
             where: { id: existingSale.customerId },
             data: {
@@ -94,7 +116,7 @@ export async function PATCH(
 
         // Reverse credit balance if payment was credit
         if (existingSale.paymentMethod === 'credit') {
-          const unpaidAmount = existingSale.totalAmount - existingSale.amountPaid;
+          const unpaidAmount = Number(existingSale.totalAmount) - Number(existingSale.amountPaid);
           if (unpaidAmount > 0) {
             await tx.customer.update({
               where: { id: existingSale.customerId },
@@ -132,9 +154,30 @@ export async function PATCH(
       return sale;
     });
 
-    return NextResponse.json({ data: voidedSale });
+    // Serialize Decimal fields
+    const serializedVoidedSale = {
+      ...voidedSale,
+      subtotal: Number(voidedSale.subtotal),
+      totalAmount: Number(voidedSale.totalAmount),
+      amountPaid: Number(voidedSale.amountPaid),
+      changeAmount: Number(voidedSale.changeAmount),
+      discountAmount: Number(voidedSale.discountAmount),
+      taxAmount: Number(voidedSale.taxAmount),
+      items: voidedSale.items.map((item) => ({
+        ...item,
+        unitPrice: Number(item.unitPrice),
+        costPrice: Number(item.costPrice),
+        total: Number(item.total),
+        discount: Number(item.discount),
+      })),
+      payments: voidedSale.payments.map((payment) => ({
+        ...payment,
+        amount: Number(payment.amount),
+      })),
+    };
+
+    return NextResponse.json({ data: serializedVoidedSale });
   } catch (error) {
-    console.error('Error voiding sale:', error);
-    return NextResponse.json({ error: 'Failed to void sale' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

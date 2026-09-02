@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 const VALID_PAYMENT_METHODS = ['cash', 'card', 'mobile_money', 'bank_transfer', 'credit'];
 
@@ -67,8 +68,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching sales:', error);
-    return NextResponse.json({ error: 'Failed to fetch sales' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -88,25 +88,21 @@ export async function POST(request: NextRequest) {
     } = body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json({ error: 'Sale items are required' }, { status: 400 });
+      throw new ApiError('Sale items are required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Validate payment method
     if (!VALID_PAYMENT_METHODS.includes(paymentMethod)) {
-      return NextResponse.json(
-        {
-          error: 'Invalid payment method',
-          validMethods: VALID_PAYMENT_METHODS,
-        },
-        { status: 400 }
-      );
+      throw new ApiError('Invalid payment method', ErrorCode.INVALID_PAYMENT, undefined, {
+        validMethods: VALID_PAYMENT_METHODS,
+      });
     }
 
     // Validate customer exists if provided
     if (customerId) {
       const customer = await db.customer.findUnique({ where: { id: customerId } });
       if (!customer) {
-        return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
+        throw new ApiError('Customer not found', ErrorCode.NOT_FOUND);
       }
     }
 
@@ -154,12 +150,16 @@ export async function POST(request: NextRequest) {
     }
 
     if (invalidItems.length > 0) {
+      const err = new ApiError('Some items are invalid', ErrorCode.PRODUCTS_INVALID);
       return NextResponse.json(
         {
-          error: 'Some items are invalid',
+          message: err.message,
+          code: err.code,
+          statusCode: err.statusCode,
           invalidItems,
+          context: err.context,
         },
-        { status: 422 }
+        { status: err.statusCode },
       );
     }
 
@@ -294,9 +294,30 @@ export async function POST(request: NextRequest) {
       return newSale;
     });
 
-    return NextResponse.json(sale, { status: 201 });
+    // Serialize Decimal fields to number for the response
+    const serializedSale = {
+      ...sale,
+      subtotal: Number(sale.subtotal),
+      totalAmount: Number(sale.totalAmount),
+      amountPaid: Number(sale.amountPaid),
+      changeAmount: Number(sale.changeAmount),
+      discountAmount: Number(sale.discountAmount),
+      taxAmount: Number(sale.taxAmount),
+      items: sale.items.map((item) => ({
+        ...item,
+        unitPrice: Number(item.unitPrice),
+        costPrice: Number(item.costPrice),
+        total: Number(item.total),
+        discount: Number(item.discount),
+      })),
+      payments: sale.payments.map((payment) => ({
+        ...payment,
+        amount: Number(payment.amount),
+      })),
+    };
+
+    return NextResponse.json(serializedSale, { status: 201 });
   } catch (error) {
-    console.error('Error creating sale:', error);
-    return NextResponse.json({ error: 'Failed to create sale' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

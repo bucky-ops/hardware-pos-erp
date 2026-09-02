@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { Prisma } from '@prisma/client';
+import { toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/reports - Sales summary with dailyData and paymentData
 export async function GET(request: NextRequest) {
@@ -115,7 +116,6 @@ export async function GET(request: NextRequest) {
       paymentData: paymentDataConverted,
     });
   } catch (error) {
-    console.error('Error fetching reports:', error);
-    return NextResponse.json({ error: 'Failed to fetch reports' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

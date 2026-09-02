@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/suppliers - List suppliers with search and pagination
 export async function GET(request: NextRequest) {
@@ -44,8 +45,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching suppliers:', error);
-    return NextResponse.json({ error: 'Failed to fetch suppliers' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -56,14 +56,14 @@ export async function POST(request: NextRequest) {
     const { name, email, phone, address, contactPerson } = body;
 
     if (!name) {
-      return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+      throw new ApiError('Name is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check unique email
     if (email) {
       const existing = await db.supplier.findUnique({ where: { email } });
       if (existing) {
-        return NextResponse.json({ error: 'A supplier with this email already exists' }, { status: 409 });
+        throw new ApiError('A supplier with this email already exists', ErrorCode.CONFLICT);
       }
     }
 
@@ -79,8 +79,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(supplier, { status: 201 });
   } catch (error) {
-    console.error('Error creating supplier:', error);
-    return NextResponse.json({ error: 'Failed to create supplier' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -91,7 +90,7 @@ export async function PATCH(request: NextRequest) {
     const { id, name, email, phone, address, contactPerson, isActive } = body;
 
     if (!id) {
-      return NextResponse.json({ error: 'Supplier ID is required' }, { status: 400 });
+      throw new ApiError('Supplier ID is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check unique email if being updated
@@ -100,7 +99,7 @@ export async function PATCH(request: NextRequest) {
         where: { email, NOT: { id } },
       });
       if (existing) {
-        return NextResponse.json({ error: 'A supplier with this email already exists' }, { status: 409 });
+        throw new ApiError('A supplier with this email already exists', ErrorCode.CONFLICT);
       }
     }
 
@@ -118,8 +117,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json(supplier);
   } catch (error) {
-    console.error('Error updating supplier:', error);
-    return NextResponse.json({ error: 'Failed to update supplier' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -130,23 +128,19 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json({ error: 'Supplier ID is required' }, { status: 400 });
+      throw new ApiError('Supplier ID is required', ErrorCode.VALIDATION_ERROR);
     }
 
     // Check if supplier has purchases
     const purchaseCount = await db.purchase.count({ where: { supplierId: id } });
     if (purchaseCount > 0) {
-      return NextResponse.json(
-        { error: 'Cannot delete supplier with existing purchases' },
-        { status: 409 }
-      );
+      throw new ApiError('Cannot delete supplier with existing purchases', ErrorCode.CONFLICT);
     }
 
     await db.supplier.delete({ where: { id } });
 
     return NextResponse.json({ message: 'Supplier deleted successfully' });
   } catch (error) {
-    console.error('Error deleting supplier:', error);
-    return NextResponse.json({ error: 'Failed to delete supplier' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

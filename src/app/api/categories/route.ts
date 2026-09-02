@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // GET /api/categories - List all categories
 export async function GET() {
@@ -13,8 +14,7 @@ export async function GET() {
 
     return NextResponse.json({ data: categories });
   } catch (error) {
-    console.error('Error fetching categories:', error);
-    return NextResponse.json({ error: 'Failed to fetch categories' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const { name, parentId } = body;
 
     if (!name) {
-      return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+      throw new ApiError('Name is required', ErrorCode.VALIDATION_ERROR);
     }
 
     const category = await db.category.create({
@@ -37,7 +37,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(category, { status: 201 });
   } catch (error) {
-    console.error('Error creating category:', error);
-    return NextResponse.json({ error: 'Failed to create category' }, { status: 500 });
+    return toErrorResponse(error);
   }
 }

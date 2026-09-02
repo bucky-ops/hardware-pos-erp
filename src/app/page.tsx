@@ -3,7 +3,7 @@
 import { useEffect, useCallback } from 'react';
 import { useNavStore, useSettingsStore } from '@/lib/store';
 import { NAV_ITEMS, type ViewName } from '@/lib/types';
-import { initGlobalErrorReporting, reportError } from '@/lib/error-reporter';
+import { initGlobalErrorReporting, reportApiError, reportError } from '@/lib/error-reporter';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -211,7 +211,7 @@ export default function Home() {
     initGlobalErrorReporting();
   }, [loadSettings]);
 
-  /* Global fetch error interceptor */
+  /* Global fetch error interceptor — uses MbumahErrorHandler for structured errors */
   const originalFetch = useCallback(() => {
     const orig = window.fetch;
     window.fetch = async (...args) => {
@@ -219,9 +219,8 @@ export default function Home() {
         const res = await orig(...args);
         if (!res.ok && res.status >= 500) {
           const url = typeof args[0] === 'string' ? args[0] : 'unknown';
-          reportError({
-            level: 'error',
-            message: `API ${res.status}: ${url}`,
+          // Use structured error reporting
+          reportApiError(res, {
             component: 'FetchInterceptor',
             action: url,
           });

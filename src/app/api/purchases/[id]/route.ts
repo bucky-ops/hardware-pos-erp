@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { ApiError, ErrorCode, toErrorResponse } from '@/lib/api-errors';
 
 // PATCH /api/purchases/[id] - Receive/update purchase (ALL inside transaction)
 export async function PATCH(
@@ -25,11 +26,11 @@ export async function PATCH(
         });
 
         if (!purchase) {
-          throw new Error('Purchase not found');
+          throw new ApiError('Purchase not found', ErrorCode.NOT_FOUND);
         }
 
         if (purchase.status === 'received') {
-          throw new Error('Purchase is already received');
+          throw new ApiError('Purchase is already received', ErrorCode.PURCHASE_RECEIVED);
         }
 
         // Use receivedItems if provided, otherwise receive all items
@@ -72,7 +73,7 @@ export async function PATCH(
     // General update (status, notes)
     const existingPurchase = await db.purchase.findUnique({ where: { id } });
     if (!existingPurchase) {
-      return NextResponse.json({ error: 'Purchase not found' }, { status: 404 });
+      throw new ApiError('Purchase not found', ErrorCode.NOT_FOUND);
     }
 
     const updateData: Record<string, unknown> = {};
@@ -89,17 +90,7 @@ export async function PATCH(
     });
 
     return NextResponse.json({ data: updated });
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to update purchase';
-    console.error('Error updating purchase:', error);
-
-    if (message === 'Purchase not found') {
-      return NextResponse.json({ error: message }, { status: 404 });
-    }
-    if (message === 'Purchase is already received') {
-      return NextResponse.json({ error: message }, { status: 400 });
-    }
-
-    return NextResponse.json({ error: 'Failed to update purchase' }, { status: 500 });
+  } catch (error) {
+    return toErrorResponse(error);
   }
 }
